@@ -334,17 +334,13 @@ public class SalesViewController {
 
         content.getChildren().add(telegramBtn);
 
-        // If digital payment, show notice
-        if ("CLICK".equals(sale.getPaymentMethod()) || "PAYME".equals(sale.getPaymentMethod())) {
-            Label qrNotice = new Label("Skanerlash uchun QR tayyor!");
-            qrNotice.setStyle("-fx-text-fill: #00c6ff; -fx-font-weight: bold;");
-            content.getChildren().add(0, qrNotice);
-
-            Hyperlink qrLink = new Hyperlink("To'lov havolasi 🔗");
-            qrLink.setOnAction(e -> System.out.println("Digital Link: " + paymentService.generateQrPayload(sale,
-                    "CLICK".equals(sale.getPaymentMethod()) ? com.smartpos.service.PaymentService.PaymentProvider.CLICK
-                            : com.smartpos.service.PaymentService.PaymentProvider.PAYME)));
-            content.getChildren().add(1, qrLink);
+        // Manual Terminal Instruction
+        if (!"NAQD".equals(sale.getPaymentMethod()) && !"DEBT".equals(sale.getPaymentMethod())) {
+            Label manualNotice = new Label("TERMINALGA KIRITING: " + sale.getPaidAmount() + " so'm");
+            manualNotice.setStyle(
+                    "-fx-text-fill: #ff4444; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10; -fx-border-color: #ff4444; -fx-border-width: 2; -fx-alignment: center;");
+            manualNotice.setMaxWidth(Double.MAX_VALUE);
+            content.getChildren().add(0, manualNotice);
         }
 
         alert.getDialogPane().setContent(content);
