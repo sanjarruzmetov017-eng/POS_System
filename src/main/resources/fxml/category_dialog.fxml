@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="20" prefWidth="450" 
+      stylesheets="@../css/styles.css" styleClass="glass-pane"
+      fx:controller="com.smartpos.ui.CategoryDialogController">
+    <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+    
+    <Label text="Kategoriya Ma'lumotlari" styleClass="label-header" style="-fx-font-size: 20px;"/>
+    
+    <VBox spacing="10">
+        <Label text="Kategoriya Nomi:" styleClass="label-sub-header"/>
+        <TextField fx:id="nameField" promptText="Masalan: Ichimliklar, Shirinliklar..." styleClass="text-field-modern" style="-fx-padding: 12;"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding-top: 10;">
+        <Button text="Bekor qilish" onAction="#handleCancel" styleClass="button-secondary"/>
+        <Button text="Saqlash" onAction="#handleSave" styleClass="button-primary">
+            <graphic><FontAwesomeIconView glyphName="SAVE" size="14" style="-fx-fill: white;"/></graphic>
+        </Button>
+    </HBox>
+</VBox>

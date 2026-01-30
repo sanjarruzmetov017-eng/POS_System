@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -158,6 +159,22 @@ public class ProductViewController {
     private void loadProducts() {
         List<Product> products = productService.findAll();
         productTable.setItems(FXCollections.observableArrayList(products));
+    }
+
+    @FXML
+    private void handleManageCategories() {
+        loadView("/fxml/categories_view.fxml");
+    }
+
+    private void loadView(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            loader.setControllerFactory(applicationContext::getBean);
+            Parent view = loader.load();
+            ((StackPane) productTable.getScene().lookup("#contentArea")).getChildren().setAll(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

@@ -6,7 +6,12 @@
     <HBox alignment="CENTER_LEFT" spacing="20">
         <Label text="Mahsulotlar" styleClass="label-header"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="+ Yangi mahsulot" styleClass="button-primary" onAction="#handleNewProduct"/>
+        <HBox spacing="10">
+            <Button text="Kategoriyalar" styleClass="button-secondary" onAction="#handleManageCategories">
+                <graphic><FontAwesomeIconView glyphName="LIST" size="14"/></graphic>
+            </Button>
+            <Button text="+ Yangi mahsulot" styleClass="button-primary" onAction="#handleNewProduct"/>
+        </HBox>
     </HBox>
     
     <!-- Search Bar -->
