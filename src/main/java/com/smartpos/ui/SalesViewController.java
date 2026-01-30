@@ -43,8 +43,7 @@ public class SalesViewController {
     private com.smartpos.service.CashRegisterService cashRegisterService;
     @Autowired
     private com.smartpos.service.TelegramService telegramService;
-    @Autowired
-    private com.smartpos.service.PaymentService paymentService;
+    // Removed unused paymentService
 
     @FXML
     private TextField searchField;
