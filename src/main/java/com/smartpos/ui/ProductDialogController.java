@@ -4,6 +4,7 @@ import com.smartpos.model.Category;
 import com.smartpos.model.Product;
 import com.smartpos.service.CategoryService;
 import com.smartpos.service.ProductService;
+import com.smartpos.util.AppSession;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -33,6 +34,9 @@ public class ProductDialogController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private AppSession session;
 
     @FXML
     private TextField nameField;
@@ -152,12 +156,21 @@ public class ProductDialogController {
         if (!validateInput())
             return;
 
+        if (session.getCurrentTenant() == null) {
+            showAlert("Xatolik", "Seans muddati tugagan yoki do'kon ma'lumoti topilmadi. Iltimos, qaytadan kiring.");
+            return;
+        }
+
         if (product == null) {
             product = new Product();
         }
 
         product.setName(nameField.getText().trim());
-        product.setBarcode(barcodeField.getText().trim());
+
+        // Handle Barcode (Treat empty as null to avoid unique constraint issues)
+        String barcode = barcodeField.getText().trim();
+        product.setBarcode(barcode.isEmpty() ? null : barcode);
+
         product.setCategory(categoryCombo.getValue());
         product.setPrice(new BigDecimal(priceField.getText()));
         product.setCostPrice(new BigDecimal(costPriceField.getText()));
@@ -177,7 +190,9 @@ public class ProductDialogController {
             saved = true;
             closeStage();
         } catch (Exception e) {
-            showAlert("Xatolik", "Mahsulotni saqlashda xato yuz berdi: " + e.getMessage());
+            e.printStackTrace(); // Log stack trace
+            showAlert("Xatolik", "Mahsulotni saqlashda xato yuz berdi: " +
+                    (e.getCause() != null ? e.getCause().getMessage() : e.getMessage()));
         }
     }
 

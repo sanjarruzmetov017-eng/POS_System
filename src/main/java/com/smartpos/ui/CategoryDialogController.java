@@ -2,6 +2,7 @@ package com.smartpos.ui;
 
 import com.smartpos.model.Category;
 import com.smartpos.service.CategoryService;
+import com.smartpos.util.AppSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -15,6 +16,9 @@ public class CategoryDialogController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private AppSession session;
 
     @FXML
     private TextField nameField;
@@ -40,6 +44,11 @@ public class CategoryDialogController {
             return;
         }
 
+        if (session.getCurrentTenant() == null) {
+            showAlert("Xatolik", "Seans muddati tugagan yoki do'kon ma'lumoti topilmadi. Iltimos, qaytadan kiring.");
+            return;
+        }
+
         if (category == null) {
             category = new Category();
         }
@@ -51,7 +60,9 @@ public class CategoryDialogController {
             saved = true;
             closeStage();
         } catch (Exception e) {
-            showAlert("Xatolik", "Saqlashda xato: " + e.getMessage());
+            e.printStackTrace(); // Log stack trace
+            showAlert("Xatolik", "Saqlashda xato: " +
+                    (e.getCause() != null ? e.getCause().getMessage() : e.getMessage()));
         }
     }
 

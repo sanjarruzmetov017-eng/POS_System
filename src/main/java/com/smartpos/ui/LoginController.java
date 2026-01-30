@@ -83,12 +83,23 @@ public class LoginController {
 
     private void loginSuccess(User user) {
         System.out.println("✅ Login Successful: " + (user != null ? user.getUsername() : "Admin"));
+
+        if (user == null) {
+            // Hardcoded admin support - try to find or create a default user/tenant
+            user = userService.findByUsername("admin").orElse(null);
+            if (user == null) {
+                System.out.println("⚠️ Admin user not found in DB, session will be limited.");
+                // We should probably redirect to a setup page or create a default tenant/user
+                // here in production
+            }
+        }
+
         if (user != null) {
             session.login(user);
         }
+
         errorLabel.setText("Success! Loading...");
         errorLabel.setStyle("-fx-text-fill: #4cd137;");
-        // Store user in dummy session if needed
         loadMainView();
     }
 
