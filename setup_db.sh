@@ -14,12 +14,16 @@ if ! pgrep -x "postgres" > /dev/null; then
     exit 1
 fi
 
+# Set password for postgres user to ensure application connectivity
+echo "🔐 Configuring postgres user password..."
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD '$DB_PASS';" > /dev/null
+
 # Create Database (if not exists)
-if psql -U $DB_USER -lqt | cut -d \| -f 1 | grep -qw $DB_NAME; then
+if sudo -u postgres psql -lqt | cut -d \| -f 1 | grep -qw $DB_NAME; then
     echo "✅ Database '$DB_NAME' already exists."
 else
     echo "⚙️ Creating database '$DB_NAME'..."
-    createdb -U $DB_USER $DB_NAME
+    sudo -u postgres createdb $DB_NAME
     if [ $? -eq 0 ]; then
         echo "✅ Database '$DB_NAME' created successfully!"
     else
