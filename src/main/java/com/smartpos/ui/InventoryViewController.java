@@ -48,11 +48,21 @@ public class InventoryViewController {
     private Label totalItemsLabel;
     @FXML
     private Label lowStockLabel;
+    @FXML
+    private TextField searchField;
 
     @FXML
     public void initialize() {
         setupTable();
         loadInventory();
+
+        searchField.textProperty().addListener((obs, old, newVal) -> {
+            if (newVal == null || newVal.trim().isEmpty()) {
+                loadInventory();
+            } else {
+                inventoryTable.setItems(FXCollections.observableArrayList(productService.search(newVal)));
+            }
+        });
     }
 
     private void setupTable() {

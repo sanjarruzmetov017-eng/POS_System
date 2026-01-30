@@ -68,10 +68,10 @@ public class ProductService {
     }
 
     public List<Product> search(String query) {
-        // Need to add findByNameContainingIgnoreCaseAndTenantId to repository
-        return productRepository.findByNameContainingIgnoreCase(query).stream()
-                .filter(p -> p.getTenant().getId().equals(session.getCurrentTenant().getId()))
-                .toList();
+        if (query == null || query.trim().isEmpty()) {
+            return findAll();
+        }
+        return productRepository.search(query.trim(), session.getCurrentTenant().getId());
     }
 
     public List<Product> findByCategory(Long catId) {

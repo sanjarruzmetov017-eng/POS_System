@@ -5,7 +5,11 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.smartpos.ui.InventoryViewController" spacing="20" style="-fx-padding: 20;">
     
-    <Label text="Ombor boshqaruvi" styleClass="label-header"/>
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="Ombor boshqaruvi" styleClass="label-header"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="searchField" promptText="Mahsulotlarni qidirish..." prefWidth="300" styleClass="text-field-modern"/>
+    </HBox>
 
     <!-- Summary Cards -->
     <HBox spacing="20">

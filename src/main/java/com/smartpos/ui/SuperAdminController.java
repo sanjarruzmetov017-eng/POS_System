@@ -31,6 +31,8 @@ public class SuperAdminController {
     @FXML
     private TableView<Tenant> tenantTable;
     @FXML
+    private TextField searchField;
+    @FXML
     private TableColumn<Tenant, Long> colId;
     @FXML
     private TableColumn<Tenant, String> colName;
@@ -47,6 +49,10 @@ public class SuperAdminController {
     public void initialize() {
         setupTable();
         loadTenants();
+
+        searchField.textProperty().addListener((obs, old, newVal) -> {
+            filterTenants(newVal);
+        });
     }
 
     private void setupTable() {
@@ -81,6 +87,18 @@ public class SuperAdminController {
     private void loadTenants() {
         List<Tenant> tenants = tenantRepository.findAll();
         tenantTable.setItems(FXCollections.observableArrayList(tenants));
+    }
+
+    private void filterTenants(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            loadTenants();
+            return;
+        }
+        List<Tenant> filtered = tenantRepository.findAll().stream()
+                .filter(t -> t.getName().toLowerCase().contains(query.toLowerCase()) ||
+                        (t.getOwnerName() != null && t.getOwnerName().toLowerCase().contains(query.toLowerCase())))
+                .toList();
+        tenantTable.setItems(FXCollections.observableArrayList(filtered));
     }
 
     @FXML

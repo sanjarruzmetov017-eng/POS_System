@@ -14,9 +14,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findBySupplierId(Long supplierId);
 
-    List<Product> findByNameContainingIgnoreCase(String name);
+    Optional<Product> findByBarcode(String barcode);
 
     List<Product> findByStockQuantityLessThan(java.math.BigDecimal threshold);
 
-    Optional<Product> findByBarcode(String barcode);
+    @org.springframework.data.jpa.repository.Query("SELECT p FROM Product p WHERE p.tenant.id = :tenantId AND (LOWER(p.name) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(p.barcode) LIKE LOWER(CONCAT('%', :query, '%')))")
+    List<Product> search(@org.springframework.data.repository.query.Param("query") String query,
+            @org.springframework.data.repository.query.Param("tenantId") Long tenantId);
 }
