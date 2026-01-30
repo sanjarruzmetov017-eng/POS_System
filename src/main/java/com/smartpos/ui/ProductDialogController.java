@@ -63,7 +63,8 @@ public class ProductDialogController {
     private File selectedImageFile;
     private boolean saved = false;
 
-    private static final String IMAGE_DIR = "data/product-images/";
+    private static final String IMAGE_DIR = System.getProperty("user.home") + File.separator + ".smartpos"
+            + File.separator + "product-images" + File.separator;
 
     @FXML
     public void initialize() {
@@ -189,6 +190,8 @@ public class ProductDialogController {
             String savedPath = saveImage(selectedImageFile);
             if (savedPath != null) {
                 product.setImageUrl(savedPath);
+            } else {
+                showAlert("Ogohlantirish", "Rasmni saqlab bo'lmadi, lekin mahsulot saqlanishi mumkin.");
             }
         }
 
@@ -216,6 +219,7 @@ public class ProductDialogController {
 
             return target.toString();
         } catch (IOException e) {
+            System.err.println("❌ Error saving image: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
