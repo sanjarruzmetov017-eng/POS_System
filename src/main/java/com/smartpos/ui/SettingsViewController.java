@@ -27,6 +27,16 @@ public class SettingsViewController {
     private Label syncStatusLabel;
 
     @FXML
+    private PasswordField telegramTokenField;
+    @FXML
+    private TextField telegramChatIdField;
+    @FXML
+    private Label telegramStatusLabel;
+
+    @Autowired
+    private com.smartpos.service.TelegramService telegramService;
+
+    @FXML
     public void initialize() {
         loadSettings();
     }
@@ -36,6 +46,9 @@ public class SettingsViewController {
         storePhoneField.setText(configService.getConfig("STORE_PHONE", ""));
         storeAddressField.setText(configService.getConfig("STORE_ADDRESS", ""));
         receiptFooterField.setText(configService.getConfig("RECEIPT_FOOTER", "Xaridingiz uchun rahmat!"));
+
+        telegramTokenField.setText(configService.getConfig("TELEGRAM_BOT_TOKEN", ""));
+        telegramChatIdField.setText(configService.getConfig("TELEGRAM_CHAT_ID", ""));
     }
 
     @FXML
@@ -45,7 +58,34 @@ public class SettingsViewController {
         configService.setConfig("STORE_ADDRESS", storeAddressField.getText());
         configService.setConfig("RECEIPT_FOOTER", receiptFooterField.getText());
 
+        configService.setConfig("TELEGRAM_BOT_TOKEN", telegramTokenField.getText());
+        configService.setConfig("TELEGRAM_CHAT_ID", telegramChatIdField.getText());
+
         showAlert("Muvaffaqiyat", "Tizim sozlamalari muvaffaqiyatli saqlandi.");
+    }
+
+    @FXML
+    public void handleTestTelegram() {
+        handleSaveSettings(); // Save first
+        telegramStatusLabel.setText("Yuborilmoqda...");
+
+        new Thread(() -> {
+            try {
+                telegramService.sendDailySummary("🧪 SmartPOS Tizimidan TEST xabari: Integratsiya ishlayapti!");
+
+                javafx.application.Platform.runLater(() -> {
+                    telegramStatusLabel.setText("Yuborildi ✅");
+                    telegramStatusLabel.setStyle("-fx-text-fill: #00ff00;");
+                    showAlert("Muvaffaqiyat", "Test xabari Telegramga yuborildi.\nBotni tekshiring.");
+                });
+            } catch (Exception e) {
+                javafx.application.Platform.runLater(() -> {
+                    telegramStatusLabel.setText("Xatolik ❌");
+                    telegramStatusLabel.setStyle("-fx-text-fill: #ff0000;");
+                    showAlert("Xatolik", "Xabar yuborishda xatolik: " + e.getMessage());
+                });
+            }
+        }).start();
     }
 
     @FXML

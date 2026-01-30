@@ -64,6 +64,39 @@
                 </VBox>
             </Tab>
 
+            <!-- Telegram Integration Tab -->
+            <Tab text="Telegram Integration">
+                <VBox spacing="20" style="-fx-padding: 30;">
+                    <Label text="Telegram Bot Sozlamalari" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+                    <GridPane hgap="15" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="120" prefWidth="120"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+                        
+                        <Label text="Bot Token:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <PasswordField fx:id="telegramTokenField" promptText="123456789:ABCdefGHIjklMNOpqrsTUVwxyz" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        
+                        <Label text="Chat ID:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <TextField fx:id="telegramChatIdField" promptText="-1001234567890" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        
+                        <Label text="Holati:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label fx:id="telegramStatusLabel" text="Kutilmoqda..." style="-fx-text-fill: #ffa000;" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    </GridPane>
+
+                    <Separator opacity="0.1"/>
+
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Button text="Test Xabar Yuborish 📨" onAction="#handleTestTelegram" styleClass="button-secondary"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Saqlash ✅" onAction="#handleSaveSettings" styleClass="button-primary"/>
+                    </HBox>
+                    
+                    <Label text="Eslatma: 'Bot Father' orqali bot ochib, tokenni shu yerga kiritasiz." style="-fx-text-fill: #808080; -fx-font-style: italic;"/>
+                </VBox>
+            </Tab>
+
             <!-- General Settings Tab -->
             <Tab text="App Information">
                 <VBox spacing="15" style="-fx-padding: 30;">
