@@ -11,44 +11,55 @@
     
     <Label text="Mahsulot ma'lumotlari" styleClass="label-header" style="-fx-font-size: 24px; -fx-padding: 0;"/>
     
-    <GridPane vgap="15" hgap="20">
-        <columnConstraints>
-            <ColumnConstraints minWidth="150" halignment="RIGHT"/>
-            <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
-        </columnConstraints>
-        <columnConstraints>
-            <ColumnConstraints prefWidth="120"/>
-            <ColumnConstraints hgrow="ALWAYS"/>
-        </columnConstraints>
-
-        <Label text="Nomi:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-sub-header"/>
-        <TextField fx:id="nameField" promptText="Mahsulot nomi" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field-modern"/>
-
-        <Label text="Shtrix-kod:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-sub-header"/>
-        <HBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="1">
-            <TextField fx:id="barcodeField" promptText="Shtrix-kod" HBox.hgrow="ALWAYS" styleClass="text-field-modern"/>
-            <Button onAction="#handleGenerateBarcode" styleClass="button-secondary">
-                <graphic>
-                    <FontAwesomeIconView glyphName="BARCODE" size="16"/>
-                </graphic>
+    <HBox spacing="30" alignment="TOP_CENTER">
+        <!-- Image Section -->
+        <VBox spacing="15" alignment="TOP_CENTER" minWidth="150">
+            <StackPane styleClass="glass-pane" prefWidth="150" prefHeight="150" style="-fx-background-radius: 15;">
+                <ImageView fx:id="productImageView" fitWidth="140" fitHeight="140" preserveRatio="true"/>
+                <Label fx:id="imagePlaceholderLabel" text="Rasm yo'q" styleClass="label-sub-header" style="-fx-text-fill: #5a5a70;"/>
+            </StackPane>
+            <Button text="Rasm tanlash" onAction="#handleSelectImage" maxWidth="Infinity" styleClass="button-secondary">
+                <graphic><FontAwesomeIconView glyphName="IMAGE" size="14"/></graphic>
             </Button>
-        </HBox>
+            <Button text="O'chirish" onAction="#handleRemoveImage" maxWidth="Infinity" styleClass="button-secondary" style="-fx-text-fill: #f5576c;">
+                <graphic><FontAwesomeIconView glyphName="TRASH" size="14" style="-fx-fill: #f5576c;"/></graphic>
+            </Button>
+        </VBox>
 
-        <Label text="Kategoriya:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="label-sub-header"/>
-        <ComboBox fx:id="categoryCombo" promptText="Kategoriyani tanlang" maxWidth="Infinity" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="combo-box-modern"/>
+        <!-- Form Section -->
+        <GridPane vgap="15" hgap="20" HBox.hgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints minWidth="120" halignment="RIGHT"/>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
+            </columnConstraints>
 
-        <Label text="Sotuv narxi:" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="label-sub-header"/>
-        <TextField fx:id="priceField" promptText="0.00" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="text-field-modern"/>
+            <Label text="Nomi:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+            <TextField fx:id="nameField" promptText="Mahsulot nomi" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field-modern"/>
 
-        <Label text="Tannarxi:" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="label-sub-header"/>
-        <TextField fx:id="costPriceField" promptText="0.00" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="text-field-modern"/>
+            <Label text="Shtrix-kod:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+            <HBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <TextField fx:id="barcodeField" promptText="Shtrix-kod" HBox.hgrow="ALWAYS" styleClass="text-field-modern"/>
+                <Button onAction="#handleGenerateBarcode" styleClass="button-secondary">
+                    <graphic><FontAwesomeIconView glyphName="BARCODE" size="16"/></graphic>
+                </Button>
+            </HBox>
 
-        <Label text="Zaxira (Soni/KG):" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="label-sub-header"/>
-        <TextField fx:id="stockField" promptText="0.00" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="text-field-modern"/>
+            <Label text="Kategoriya:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+            <ComboBox fx:id="categoryCombo" promptText="Kategoriyani tanlang" maxWidth="Infinity" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="combo-box-modern"/>
 
-        <Label text="Birlik:" GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="label-sub-header"/>
-        <ComboBox fx:id="unitCombo" maxWidth="Infinity" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="combo-box-modern"/>
-    </GridPane>
+            <Label text="Sotuv narxi:" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+            <TextField fx:id="priceField" promptText="0.00" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="text-field-modern"/>
+
+            <Label text="Tannarxi:" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+            <TextField fx:id="costPriceField" promptText="0.00" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="text-field-modern"/>
+
+            <Label text="Zaxira (Soni/KG):" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+            <TextField fx:id="stockField" promptText="0.00" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="text-field-modern"/>
+
+            <Label text="Birlik:" GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+            <ComboBox fx:id="unitCombo" maxWidth="Infinity" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="combo-box-modern"/>
+        </GridPane>
+    </HBox>
 
     <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding-top: 10;">
         <Button text="Bekor qilish" onAction="#handleCancel" styleClass="button-secondary"/>

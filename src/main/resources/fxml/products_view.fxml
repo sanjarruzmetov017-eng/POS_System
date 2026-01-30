@@ -16,6 +16,7 @@
     <TableView fx:id="productTable" VBox.vgrow="ALWAYS" styleClass="glass-pane">
         <columns>
             <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+            <TableColumn fx:id="colImage" text="Rasm" prefWidth="60" />
             <TableColumn fx:id="colName" text="Nomi" prefWidth="250" />
             <TableColumn fx:id="colCategory" text="Kategoriya" prefWidth="150" />
             <TableColumn fx:id="colPrice" text="Narxi" prefWidth="100" />

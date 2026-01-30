@@ -7,12 +7,21 @@ import com.smartpos.service.ProductService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Component
@@ -39,9 +48,16 @@ public class ProductDialogController {
     private TextField stockField;
     @FXML
     private ComboBox<Product.UnitType> unitCombo;
+    @FXML
+    private ImageView productImageView;
+    @FXML
+    private Label imagePlaceholderLabel;
 
     private Product product;
+    private File selectedImageFile;
     private boolean saved = false;
+
+    private static final String IMAGE_DIR = "data/product-images/";
 
     @FXML
     public void initialize() {
@@ -78,6 +94,22 @@ public class ProductDialogController {
             costPriceField.setText(product.getCostPrice().toString());
             stockField.setText(product.getStockQuantity().toString());
             unitCombo.setValue(product.getUnitType());
+
+            if (product.getImageUrl() != null) {
+                loadImage(product.getImageUrl());
+            }
+        }
+    }
+
+    private void loadImage(String url) {
+        try {
+            File file = new File(url);
+            if (file.exists()) {
+                productImageView.setImage(new Image(file.toURI().toString()));
+                imagePlaceholderLabel.setVisible(false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -88,6 +120,31 @@ public class ProductDialogController {
     @FXML
     private void handleGenerateBarcode() {
         barcodeField.setText(String.valueOf(System.currentTimeMillis()));
+    }
+
+    @FXML
+    private void handleSelectImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Rasm tanlash");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Rasmlar", "*.png", "*.jpg", "*.jpeg", "*.webp"));
+
+        File file = fileChooser.showOpenDialog(nameField.getScene().getWindow());
+        if (file != null) {
+            selectedImageFile = file;
+            productImageView.setImage(new Image(file.toURI().toString()));
+            imagePlaceholderLabel.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void handleRemoveImage() {
+        selectedImageFile = null;
+        productImageView.setImage(null);
+        imagePlaceholderLabel.setVisible(true);
+        if (product != null) {
+            product.setImageUrl(null);
+        }
     }
 
     @FXML
@@ -107,12 +164,38 @@ public class ProductDialogController {
         product.setStockQuantity(new BigDecimal(stockField.getText()));
         product.setUnitType(unitCombo.getValue());
 
+        // Handle Image Save
+        if (selectedImageFile != null) {
+            String savedPath = saveImage(selectedImageFile);
+            if (savedPath != null) {
+                product.setImageUrl(savedPath);
+            }
+        }
+
         try {
             productService.save(product);
             saved = true;
             closeStage();
         } catch (Exception e) {
             showAlert("Xatolik", "Mahsulotni saqlashda xato yuz berdi: " + e.getMessage());
+        }
+    }
+
+    private String saveImage(File file) {
+        try {
+            Path dir = Paths.get(IMAGE_DIR);
+            if (!Files.exists(dir)) {
+                Files.createDirectories(dir);
+            }
+
+            String fileName = System.currentTimeMillis() + "_" + file.getName();
+            Path target = dir.resolve(fileName);
+            Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+
+            return target.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

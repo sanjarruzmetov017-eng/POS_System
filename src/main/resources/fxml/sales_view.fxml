@@ -23,6 +23,7 @@
         <VBox VBox.vgrow="ALWAYS" styleClass="glass-pane">
             <TableView fx:id="productTable" VBox.vgrow="ALWAYS" styleClass="table-view">
                 <columns>
+                    <TableColumn fx:id="colProdImage" text="IMG" prefWidth="50" style="-fx-alignment: CENTER;"/>
                     <TableColumn fx:id="colProdName" text="MAHSULOT NOMI" prefWidth="250"/>
                     <TableColumn fx:id="colProdPrice" text="NARX (SO'M)" prefWidth="120"/>
                     <TableColumn fx:id="colProdAction" text="AMAL" prefWidth="100"/>

@@ -11,7 +11,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import java.io.File;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +52,8 @@ public class SalesViewController {
     private ComboBox<String> paymentMethodComboBox;
     @FXML
     private TableView<Product> productTable;
+    @FXML
+    private TableColumn<Product, String> colProdImage;
     @FXML
     private TableColumn<Product, String> colProdName;
     @FXML
@@ -134,6 +140,41 @@ public class SalesViewController {
     }
 
     private void setupProductTable() {
+        colProdImage.setCellFactory(param -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+            {
+                imageView.setFitWidth(35);
+                imageView.setFitHeight(35);
+                imageView.setPreserveRatio(true);
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setGraphic(null);
+                } else {
+                    Product p = getTableRow().getItem();
+                    if (p.getImageUrl() != null) {
+                        try {
+                            File file = new File(p.getImageUrl());
+                            if (file.exists()) {
+                                imageView.setImage(new Image(file.toURI().toString(), true));
+                                setGraphic(imageView);
+                                alignmentProperty().set(Pos.CENTER);
+                            } else {
+                                setGraphic(null);
+                            }
+                        } catch (Exception e) {
+                            setGraphic(null);
+                        }
+                    } else {
+                        setGraphic(null);
+                    }
+                }
+            }
+        });
+
         colProdName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colProdPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colProdAction.setCellFactory(param -> new TableCell<>() {
