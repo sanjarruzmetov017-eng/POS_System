@@ -69,6 +69,8 @@ public class MainController {
     @FXML
     private Button shiftsBtn;
     @FXML
+    private Button superAdminBtn;
+    @FXML
     private Button closeRegisterBtn;
 
     @FXML
@@ -157,6 +159,12 @@ public class MainController {
     }
 
     private void applyRbac() {
+        // Super Admin check: only "admin" user or SUPER_ADMIN role can see the global
+        // management
+        boolean isSuperUser = "admin".equalsIgnoreCase(session.getCurrentUser().getUsername());
+        superAdminBtn.setVisible(isSuperUser);
+        superAdminBtn.setManaged(isSuperUser);
+
         if (!session.isAdmin()) {
             // Cashier restrictions - Hide sensitive modules completely
             productsBtn.setVisible(false);
@@ -248,6 +256,11 @@ public class MainController {
     @FXML
     public void showShifts() {
         loadView("/fxml/shifts_view.fxml");
+    }
+
+    @FXML
+    public void showSuperAdmin() {
+        loadView("/fxml/super_admin_view.fxml");
     }
 
     @FXML

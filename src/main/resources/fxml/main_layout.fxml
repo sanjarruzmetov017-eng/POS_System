@@ -55,6 +55,10 @@
                 <graphic><FontAwesomeIconView glyphName="BAR_CHART" size="16" styleClass="glyph-icon"/></graphic>
             </Button>
             
+            <Button fx:id="superAdminBtn" text="Super Admin" onAction="#showSuperAdmin" maxWidth="Infinity" styleClass="button-nav">
+                <graphic><de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView glyphName="GEARS" size="16" styleClass="icon-neon"/></graphic>
+            </Button>
+            
             <Region VBox.vgrow="ALWAYS"/>
             
             <Label text="SYSTEM" style="-fx-text-fill: #5a5a70; -fx-font-size: 10px; -fx-font-weight: 900; -fx-padding: 0 0 5 15;"/>
