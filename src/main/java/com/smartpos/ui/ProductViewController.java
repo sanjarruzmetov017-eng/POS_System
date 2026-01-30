@@ -9,8 +9,15 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.io.IOException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,6 +30,9 @@ public class ProductViewController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @FXML
     private TextField searchField;
@@ -67,17 +77,27 @@ public class ProductViewController {
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colStock.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
 
-        // Action Column with Delete Button
+        // Action Column with Edit and Delete Buttons
         colAction.setCellFactory(param -> new TableCell<>() {
-            private final Button btn = new Button("Delete");
+            private final Button editBtn = new Button("Edit");
+            private final Button deleteBtn = new Button("Delete");
+            private final HBox container = new HBox(10, editBtn, deleteBtn);
 
             {
-                btn.getStyleClass().add("nav-button-critical");
-                btn.setOnAction(event -> {
+                editBtn.getStyleClass().add("button-secondary");
+                editBtn.setOnAction(event -> {
+                    Product product = getTableView().getItems().get(getIndex());
+                    showProductDialog(product);
+                });
+
+                deleteBtn.getStyleClass().add("nav-button-critical");
+                deleteBtn.setOnAction(event -> {
                     Product product = getTableView().getItems().get(getIndex());
                     productService.delete(product.getId());
                     loadProducts();
                 });
+
+                container.setAlignment(javafx.geometry.Pos.CENTER);
             }
 
             @Override
@@ -86,7 +106,7 @@ public class ProductViewController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    setGraphic(btn);
+                    setGraphic(container);
                 }
             }
         });
@@ -99,16 +119,33 @@ public class ProductViewController {
 
     @FXML
     public void handleNewProduct() {
-        // Todo: Open Dialog
-        System.out.println("Open New Product Dialog");
+        showProductDialog(null);
+    }
 
-        // Temporary: Create a dummy product to verify list updates
-        Product p = new Product();
-        p.setName("New Product " + System.currentTimeMillis());
-        p.setPrice(new BigDecimal("99.99"));
-        p.setCostPrice(new BigDecimal("50.00"));
-        p.setStockQuantity(new BigDecimal("100"));
-        productService.save(p);
-        loadProducts();
+    private void showProductDialog(Product product) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/product_dialog.fxml"));
+            loader.setControllerFactory(applicationContext::getBean);
+            Parent root = loader.load();
+
+            ProductDialogController controller = loader.getController();
+            controller.setProduct(product);
+
+            Stage stage = new Stage();
+            stage.setTitle(product == null ? "Yangi mahsulot" : "Mahsulotni tahrirlash");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            if (controller.isSaved()) {
+                loadProducts();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Xatolik");
+            alert.setContentText("Muloqot oynasini ochib bo'lmadi: " + e.getMessage());
+            alert.show();
+        }
     }
 }
