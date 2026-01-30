@@ -31,12 +31,19 @@
 
 /* Sidebar - Sleek & Modern */
 .sidebar {
-    -fx-background-color: rgba(10, 10, 18, 0.6);
-    -fx-background-radius: 0 30 30 0;
-    -fx-padding: 40 15;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 15, 0, 5, 0);
-    -fx-border-color: rgba(255, 255, 255, 0.05);
+    -fx-background-color: #0d0d1a;
+    -fx-padding: 30 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 20, 0, 5, 0);
+    -fx-border-color: rgba(255, 255, 255, 0.03);
     -fx-border-width: 0 1 0 0;
+}
+
+.nav-section-label {
+    -fx-text-fill: #5a5a70;
+    -fx-font-size: 11px;
+    -fx-font-weight: 900;
+    -fx-letter-spacing: 2px;
+    -fx-padding: 25 0 10 15;
 }
 
 .label-header {
@@ -60,19 +67,56 @@
 /* Navigation Buttons */
 .nav-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #8e8ea0;
-    -fx-font-size: 15px;
+    -fx-text-fill: #a0a0b8;
+    -fx-font-size: 14px;
     -fx-font-weight: 700;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 15 20;
+    -fx-padding: 14 25;
     -fx-background-radius: 12;
     -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
 }
 
 .nav-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-color: rgba(255, 255, 255, 0.04);
     -fx-text-fill: #ffffff;
-    -fx-translate-x: 8;
+    -fx-translate-x: 5;
+}
+
+.nav-button-active {
+    -fx-background-color: rgba(0, 242, 254, 0.08);
+    -fx-text-fill: #00f2fe;
+    -fx-border-color: rgba(0, 242, 254, 0.3);
+    -fx-border-width: 0 0 0 4;
+}
+
+.nav-button-active .glyph-icon {
+    -fx-fill: #00f2fe;
+}
+
+/* Specific Sidebar Variants */
+.nav-button-admin {
+    -fx-text-fill: #f1c40f;
+}
+
+.nav-button-admin .glyph-icon {
+    -fx-fill: #f1c40f;
+}
+
+.nav-button-super {
+    -fx-background-color: rgba(155, 89, 182, 0.1);
+    -fx-border-color: rgba(155, 89, 182, 0.4);
+    -fx-border-width: 1;
+    -fx-text-fill: #e0e0f8;
+    -fx-border-radius: 10;
+}
+
+.nav-button-logout {
+    -fx-text-fill: #f5576c;
+}
+
+.nav-button-logout .glyph-icon {
+    -fx-fill: #f5576c;
 }
 
 /* Action Buttons (Primary) */

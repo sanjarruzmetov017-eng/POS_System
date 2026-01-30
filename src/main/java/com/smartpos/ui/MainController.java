@@ -55,9 +55,15 @@ public class MainController {
     private AppSession session;
 
     @FXML
+    private Button dashboardBtn;
+    @FXML
+    private Button salesBtn;
+    @FXML
     private Button productsBtn;
     @FXML
     private Button inventoryBtn;
+    @FXML
+    private Button customersBtn;
     @FXML
     private Button expensesBtn;
     @FXML
@@ -205,11 +211,13 @@ public class MainController {
 
     @FXML
     public void showDashboard() {
+        setActiveButton(dashboardBtn);
         loadView("/fxml/dashboard_view.fxml");
     }
 
     @FXML
     public void showSales() {
+        setActiveButton(salesBtn);
         if (cashRegisterService.getActiveSession().isEmpty()) {
             showOpenRegisterDialog();
         }
@@ -220,47 +228,73 @@ public class MainController {
 
     @FXML
     public void showProducts() {
+        setActiveButton(productsBtn);
         loadView("/fxml/products_view.fxml");
     }
 
     @FXML
     public void showCustomers() {
+        setActiveButton(customersBtn);
         loadView("/fxml/customers_view.fxml");
     }
 
     @FXML
     public void showInventory() {
+        setActiveButton(inventoryBtn);
         loadView("/fxml/inventory_view.fxml");
     }
 
     @FXML
     public void showExpenses() {
+        setActiveButton(expensesBtn);
         loadView("/fxml/expenses_view.fxml");
     }
 
     @FXML
     public void showReports() {
+        setActiveButton(reportsBtn);
         loadView("/fxml/reports_view.fxml");
     }
 
     @FXML
     public void showSettings() {
+        setActiveButton(settingsBtn);
         loadView("/fxml/settings_view.fxml");
     }
 
     @FXML
     public void showAdmin() {
+        setActiveButton(adminBtn);
         loadView("/fxml/admin_view.fxml");
     }
 
     @FXML
     public void showShifts() {
+        setActiveButton(shiftsBtn);
         loadView("/fxml/shifts_view.fxml");
     }
 
     @FXML
     public void showSuperAdmin() {
+        setActiveButton(superAdminBtn);
         loadView("/fxml/super_admin_view.fxml");
+    }
+
+    private void setActiveButton(Button button) {
+        // Reset all buttons
+        Button[] navButtons = { dashboardBtn, salesBtn, productsBtn, inventoryBtn, customersBtn,
+                expensesBtn, reportsBtn, settingsBtn, adminBtn, superAdminBtn };
+
+        for (Button b : navButtons) {
+            if (b != null) {
+                b.getStyleClass().remove("nav-button-active");
+            }
+        }
+
+        // Highlight selected
+        if (button != null) {
+            button.getStyleClass().add("nav-button-active");
+        }
     }
 
     @FXML

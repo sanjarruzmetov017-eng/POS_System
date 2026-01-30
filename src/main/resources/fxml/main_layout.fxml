@@ -17,14 +17,14 @@
                 <Label fx:id="storeNameLabel" text="PREMIUM STORE" style="-fx-text-fill: #00f2fe; -fx-font-size: 10px; -fx-font-weight: 900; -fx-letter-spacing: 2px;"/>
             </VBox>
             
-            <Label text="NAVIGATION" style="-fx-text-fill: #5a5a70; -fx-font-size: 10px; -fx-font-weight: 900; -fx-padding: 0 0 5 15;"/>
+            <Label text="NAVIGATION" styleClass="nav-section-label"/>
             
-            <Button text="DASHBOARD" maxWidth="Infinity" styleClass="nav-button" onAction="#showDashboard">
+            <Button fx:id="dashboardBtn" text="DASHBOARD" maxWidth="Infinity" styleClass="nav-button" onAction="#showDashboard">
                 <graphic><FontAwesomeIconView glyphName="DASHBOARD" size="16" styleClass="glyph-icon"/></graphic>
             </Button>
             
-            <Button text="NEW SALE" maxWidth="Infinity" styleClass="nav-button" onAction="#showSales" style="-fx-text-fill: #00f2fe; -fx-background-color: rgba(0, 242, 254, 0.05);">
-                <graphic><FontAwesomeIconView glyphName="SHOPPING_CART" size="16" styleClass="glyph-icon" style="-fx-fill: #00f2fe;"/></graphic>
+            <Button fx:id="salesBtn" text="NEW SALE" maxWidth="Infinity" styleClass="nav-button" onAction="#showSales">
+                <graphic><FontAwesomeIconView glyphName="SHOPPING_CART" size="16" styleClass="glyph-icon"/></graphic>
             </Button>
             
             <Button fx:id="productsBtn" text="PRODUCTS" maxWidth="Infinity" styleClass="nav-button" onAction="#showProducts">
@@ -55,13 +55,13 @@
                 <graphic><FontAwesomeIconView glyphName="BAR_CHART" size="16" styleClass="glyph-icon"/></graphic>
             </Button>
             
-            <Button fx:id="superAdminBtn" text="Super Admin" onAction="#showSuperAdmin" maxWidth="Infinity" styleClass="button-nav">
-                <graphic><de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView glyphName="GEARS" size="16" styleClass="icon-neon"/></graphic>
+            <Button fx:id="superAdminBtn" text="SUPER ADMIN" onAction="#showSuperAdmin" maxWidth="Infinity" styleClass="nav-button, nav-button-super">
+                <graphic><FontAwesomeIconView glyphName="GEARS" size="16" styleClass="glyph-icon"/></graphic>
             </Button>
             
             <Region VBox.vgrow="ALWAYS"/>
             
-            <Label text="SYSTEM" style="-fx-text-fill: #5a5a70; -fx-font-size: 10px; -fx-font-weight: 900; -fx-padding: 0 0 5 15;"/>
+            <Label text="SYSTEM" styleClass="nav-section-label"/>
             
             <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-padding: 0 0 15 15;">
                 <Circle fx:id="statusCircle" radius="5" fill="#f5576c">
@@ -70,16 +70,16 @@
                 <Label fx:id="statusLabel" text="OFFLINE" style="-fx-text-fill: #5a5a70; -fx-font-size: 11px; -fx-font-weight: bold;"/>
             </HBox>
 
-            <Button fx:id="adminBtn" text="ADMIN PANEL" maxWidth="Infinity" styleClass="nav-button" onAction="#showAdmin" style="-fx-text-fill: #f1c40f;">
-                <graphic><FontAwesomeIconView glyphName="GEARS" size="16" styleClass="glyph-icon" style="-fx-fill: #f1c40f;"/></graphic>
+            <Button fx:id="adminBtn" text="ADMIN PANEL" maxWidth="Infinity" styleClass="nav-button, nav-button-admin" onAction="#showAdmin">
+                <graphic><FontAwesomeIconView glyphName="GEARS" size="16" styleClass="glyph-icon"/></graphic>
             </Button>
             
             <Button fx:id="settingsBtn" text="SETTINGS" maxWidth="Infinity" styleClass="nav-button" onAction="#showSettings">
                 <graphic><FontAwesomeIconView glyphName="COG" size="16" styleClass="glyph-icon"/></graphic>
             </Button>
             
-            <Button text="LOGOUT" maxWidth="Infinity" styleClass="nav-button" onAction="#handleLogout" style="-fx-text-fill: #f5576c;">
-                <graphic><FontAwesomeIconView glyphName="SIGN_OUT" size="16" styleClass="glyph-icon" style="-fx-fill: #f5576c;"/></graphic>
+            <Button text="LOGOUT" maxWidth="Infinity" styleClass="nav-button, nav-button-logout" onAction="#handleLogout">
+                <graphic><FontAwesomeIconView glyphName="SIGN_OUT" size="16" styleClass="glyph-icon"/></graphic>
             </Button>
         </VBox>
     </left>
