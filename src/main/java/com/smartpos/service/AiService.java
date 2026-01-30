@@ -46,9 +46,43 @@ public class AiService {
     /**
      * Basic "Frequently Bought Together" recommendation.
      */
+    /**
+     * Real "Frequently Bought Together" recommendation using Co-occurrence
+     * analysis.
+     * Finds products that appear in the same transaction as the target product.
+     */
     public List<Product> getRecommendations(Product product) {
-        // Logic: Find sales containing this product, look for other products in those
-        // sales.
-        return java.util.Collections.emptyList(); // Simulation
+        if (product == null || product.getId() == null) {
+            return java.util.Collections.emptyList();
+        }
+
+        // 1. Find all sales containing this product
+        List<SaleItem> history = saleRepository.findAll().stream()
+                .flatMap(s -> s.getItems().stream())
+                .collect(Collectors.toList());
+
+        List<Long> saleIdsWithProduct = history.stream()
+                .filter(item -> item.getProduct().getId().equals(product.getId()))
+                .map(item -> item.getSale().getId())
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (saleIdsWithProduct.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+
+        // 2. Count occurrence of OTHER products in those sales
+        java.util.Map<Product, Long> coOccurrenceMap = history.stream()
+                .filter(item -> saleIdsWithProduct.contains(item.getSale().getId())) // In same sale
+                .filter(item -> !item.getProduct().getId().equals(product.getId())) // Not the same product
+                .map(SaleItem::getProduct)
+                .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
+
+        // 3. Sort by frequency and return Top 3
+        return coOccurrenceMap.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // Descending
+                .limit(3)
+                .map(java.util.Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 }
