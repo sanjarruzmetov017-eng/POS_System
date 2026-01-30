@@ -4,15 +4,18 @@
 <?import javafx.geometry.Insets?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="15" stylesheets="@../css/styles.css" 
-      prefWidth="450" styleClass="glass-pane" fx:controller="com.smartpos.ui.ProductDialogController">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <Label text="Mahsulot ma'lumotlari" styleClass="label-header"/>
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="25" prefWidth="550" 
+      stylesheets="@../css/styles.css" styleClass="glass-pane"
+      fx:controller="com.smartpos.ui.ProductDialogController">
+    <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
     
-    <GridPane vgap="10" hgap="10">
+    <Label text="Mahsulot ma'lumotlari" styleClass="label-header" style="-fx-font-size: 24px; -fx-padding: 0;"/>
+    
+    <GridPane vgap="15" hgap="20">
+        <columnConstraints>
+            <ColumnConstraints minWidth="150" halignment="RIGHT"/>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
+        </columnConstraints>
         <columnConstraints>
             <ColumnConstraints prefWidth="120"/>
             <ColumnConstraints hgrow="ALWAYS"/>

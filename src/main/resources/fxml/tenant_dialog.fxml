@@ -3,32 +3,39 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="15" prefWidth="400" 
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="25" prefWidth="550" 
       stylesheets="@../css/styles.css" styleClass="glass-pane"
       fx:controller="com.smartpos.ui.TenantDialogController">
-    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+    <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
     
-    <Label text="Yangi Do'kon Ro'yxatdan O'tkazish" styleClass="label-header" style="-fx-font-size: 18px;"/>
+    <Label text="Yangi Do'kon Ro'yxatdan O'tkazish" styleClass="label-header" style="-fx-font-size: 24px; -fx-padding: 0;"/>
     
-    <GridPane hgap="10" vgap="10">
-        <Label text="Do'kon Nomi:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field-modern"/>
-        
-        <Label text="Egasi (F.I.SH):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="ownerField" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="text-field-modern"/>
-        
-        <Label text="Admin Logini:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="adminUserField" text="admin" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="text-field-modern"/>
-        
-        <Label text="Admin Paroli:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <PasswordField fx:id="adminPassField" text="admin123" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="text-field-modern"/>
+    <GridPane hgap="20" vgap="15">
+        <columnConstraints>
+            <ColumnConstraints minWidth="150" halignment="RIGHT"/>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="250"/>
+        </columnConstraints>
 
-        <Label text="Litsenziya muddati:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Label text="Do'kon Nomi:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+        <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="Masalan: SmartPOS Filial 1"/>
+        
+        <Label text="Egasi (F.I.SH):" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+        <TextField fx:id="ownerField" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="To'liq ism sharif"/>
+        
+        <Label text="Admin Logini:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+        <TextField fx:id="adminUserField" text="admin" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        
+        <Label text="Admin Paroli:" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+        <PasswordField fx:id="adminPassField" text="admin123" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Amal qilish muddati:" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="label-sub-header"/>
         <DatePicker fx:id="expiryPicker" GridPane.rowIndex="4" GridPane.columnIndex="1" maxWidth="Infinity"/>
     </GridPane>
     
-    <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding-top: 10;">
-        <Button text="Bekor qilish" onAction="#handleCancel" styleClass="button-secondary"/>
-        <Button text="Yaratish" onAction="#handleSave" styleClass="button-primary"/>
+    <Separator style="-fx-opacity: 0.1;"/>
+
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <Button text="Bekor qilish" onAction="#handleCancel" styleClass="button-secondary" prefWidth="120"/>
+        <Button text="Do'konni Yaratish" onAction="#handleSave" styleClass="button-primary" prefWidth="180"/>
     </HBox>
 </VBox>

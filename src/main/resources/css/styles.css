@@ -20,12 +20,13 @@
 
 /* Glassmorphism Core */
 .glass-pane {
-    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-color: rgba(15, 15, 30, 0.85);
+    /* Darker for better contrast in modals */
     -fx-background-radius: 20;
     -fx-border-radius: 20;
-    -fx-border-color: rgba(255, 255, 255, 0.08);
-    -fx-border-width: 0.8;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 20, 0, 0, 10);
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-border-width: 1.2;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 30, 0, 0, 15);
 }
 
 /* Sidebar - Sleek & Modern */
@@ -39,11 +40,21 @@
 }
 
 .label-header {
-    -fx-font-size: 32px;
+    -fx-font-size: 28px;
     -fx-font-weight: 900;
     -fx-text-fill: linear-gradient(to right, #00f2fe, #4facfe);
-    -fx-effect: dropshadow(gaussian, rgba(0, 242, 254, 0.5), 15, 0.4, 0, 0);
-    -fx-padding: 0 0 40 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 242, 254, 0.4), 10, 0.3, 0, 0);
+    -fx-padding: 0 0 20 0;
+}
+
+.label-sub-header {
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #8e8ea0;
+}
+
+.label {
+    -fx-text-fill: #f8f9fa;
 }
 
 /* Navigation Buttons */
@@ -139,6 +150,29 @@
     -fx-text-fill: #8e8ea0;
     -fx-font-weight: 700;
     -fx-text-transform: uppercase;
+}
+
+/* Combo Box Modernization */
+.combo-box {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 12;
+    -fx-padding: 5 10;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #14142b;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Table View - Premium Dark */

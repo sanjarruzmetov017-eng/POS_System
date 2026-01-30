@@ -8,9 +8,9 @@
       stylesheets="@../css/styles.css" styleClass="admin-pane">
     <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
     
-    <HBox alignment="CENTER_LEFT" spacing="15">
-        <FontAwesomeIconView glyphName="GEARS" size="30" styleClass="icon-neon"/>
-        <Label text="Super Admin - Do'konlar Boshqaruvi" styleClass="label-header"/>
+    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 0 0 10 0;">
+        <FontAwesomeIconView glyphName="GEARS" size="28" fill="#00f2fe"/>
+        <Label text="Global Boshqaruv - Do'konlar" styleClass="label-header" style="-fx-font-size: 28px; -fx-padding: 0;"/>
     </HBox>
     
     <TabPane styleClass="glass-pane" VBox.vgrow="ALWAYS">
