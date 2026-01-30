@@ -91,6 +91,8 @@ public class InventoryViewController {
 
         colForecast.setCellValueFactory(data -> {
             BigDecimal days = aiService.predictDaysRemaining(data.getValue());
+            if (days == null)
+                return new javafx.beans.property.SimpleStringProperty("-");
             String text = days.compareTo(BigDecimal.valueOf(90)) > 0 ? "> 3 oy" : days.toString() + " kun";
             return new javafx.beans.property.SimpleStringProperty(text);
         });
@@ -103,7 +105,9 @@ public class InventoryViewController {
                 if (item == null || empty) {
                     setStyle("");
                 } else {
-                    if (item.getStockQuantity().compareTo(item.getLowStockThreshold()) <= 0) {
+                    BigDecimal stock = item.getStockQuantity();
+                    BigDecimal threshold = item.getLowStockThreshold();
+                    if (stock != null && threshold != null && stock.compareTo(threshold) <= 0) {
                         setStyle("-fx-background-color: #ffe6e6;"); // Light red hint
                     } else {
                         setStyle("");
@@ -231,7 +235,11 @@ public class InventoryViewController {
         totalItemsLabel.setText(String.valueOf(items.size()));
 
         long lowStock = items.stream()
-                .filter(p -> p.getStockQuantity().compareTo(p.getLowStockThreshold()) <= 0)
+                .filter(p -> {
+                    BigDecimal stock = p.getStockQuantity();
+                    BigDecimal threshold = p.getLowStockThreshold();
+                    return stock != null && threshold != null && stock.compareTo(threshold) <= 0;
+                })
                 .count();
         lowStockLabel.setText(String.valueOf(lowStock));
     }

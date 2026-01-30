@@ -58,6 +58,9 @@
 
             <Label text="Birlik:" GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="label-sub-header"/>
             <ComboBox fx:id="unitCombo" maxWidth="Infinity" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="combo-box-modern"/>
+
+            <Label text="Minimal qoldiq:" GridPane.rowIndex="7" GridPane.columnIndex="0" styleClass="label-sub-header"/>
+            <TextField fx:id="thresholdField" promptText="0.00" GridPane.rowIndex="7" GridPane.columnIndex="1" styleClass="text-field-modern"/>
         </GridPane>
     </HBox>
 

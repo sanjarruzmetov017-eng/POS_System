@@ -53,6 +53,8 @@ public class ProductDialogController {
     @FXML
     private ComboBox<Product.UnitType> unitCombo;
     @FXML
+    private TextField thresholdField;
+    @FXML
     private ImageView productImageView;
     @FXML
     private Label imagePlaceholderLabel;
@@ -98,6 +100,8 @@ public class ProductDialogController {
             costPriceField.setText(product.getCostPrice().toString());
             stockField.setText(product.getStockQuantity().toString());
             unitCombo.setValue(product.getUnitType());
+            thresholdField.setText(
+                    product.getLowStockThreshold() != null ? product.getLowStockThreshold().toString() : "0.00");
 
             if (product.getImageUrl() != null) {
                 loadImage(product.getImageUrl());
@@ -177,6 +181,9 @@ public class ProductDialogController {
         product.setStockQuantity(new BigDecimal(stockField.getText()));
         product.setUnitType(unitCombo.getValue());
 
+        String thresholdStr = thresholdField.getText().trim();
+        product.setLowStockThreshold(thresholdStr.isEmpty() ? BigDecimal.ZERO : new BigDecimal(thresholdStr));
+
         // Handle Image Save
         if (selectedImageFile != null) {
             String savedPath = saveImage(selectedImageFile);
@@ -234,6 +241,9 @@ public class ProductDialogController {
             new BigDecimal(priceField.getText());
             new BigDecimal(costPriceField.getText());
             new BigDecimal(stockField.getText());
+            if (!thresholdField.getText().trim().isEmpty()) {
+                new BigDecimal(thresholdField.getText().trim());
+            }
         } catch (Exception e) {
             msg += "Narx va zaxira raqam bo'lishi shart!\n";
         }
