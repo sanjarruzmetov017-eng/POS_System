@@ -11,7 +11,7 @@ REM 2. Tarqatish papkasini tayyorlash (Flat JAR structure)
 echo 📁 Kutubxonalarni tayyorlash...
 if exist target\dist rmdir /s /q target\dist
 mkdir target\dist
-copy target\smartpos-0.0.1-SNAPSHOT.jar.original target\dist\smartpos.jar
+copy target\smartpos-1.1.0.jar.original target\dist\smartpos.jar
 call mvn dependency:copy-dependencies -DoutputDirectory=target\dist
 
 REM 3. jpackage orqali installer yaratish
@@ -22,7 +22,7 @@ jpackage --type exe ^
   --main-jar smartpos.jar ^
   --main-class com.smartpos.SmartPosLauncher ^
   --name "SmartPOS" ^
-  --app-version "1.0.0" ^
+  --app-version "1.1.0" ^
   --vendor "Antigravity" ^
   --description "Smart Point of Sale System" ^
   --icon src\main\resources\icons\app_icon.png ^
