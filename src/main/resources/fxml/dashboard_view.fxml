@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="30" stylesheets="@../css/styles.css" style="-fx-background-color: transparent;">
+    <VBox spacing="5">
+        <Label text="REAL-TIME" style="-fx-text-fill: #00f2fe; -fx-font-size: 12px; -fx-font-weight: 900; -fx-letter-spacing: 3px;"/>
+        <Label text="UMUMIY KO'RINISH" styleClass="view-title"/>
+    </VBox>
+    
+    <HBox spacing="25">
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="BUGUNGI SAVDO" styleClass="metric-label"/>
+            <Label text="1,245.00" styleClass="metric-value">
+                <graphic><FontAwesomeIconView glyphName="LINE_CHART" size="24" style="-fx-fill: #00f2fe;"/></graphic>
+            </Label>
+            <Label text="↗ 12% BUGUN" style="-fx-text-fill: #43e97b; -fx-font-size: 11px; -fx-font-weight: 900;"/>
+        </VBox>
+        
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+            <Label text="JAMI BUYURTMALAR" styleClass="metric-label"/>
+            <Label text="45" styleClass="metric-value">
+                <graphic><FontAwesomeIconView glyphName="SHOPPING_BAG" size="24" style="-fx-fill: #f093fb;"/></graphic>
+            </Label>
+            <Label text="BARCHA SAVDO NUQTALARI" style="-fx-text-fill: #f093fb; -fx-font-size: 11px; -fx-font-weight: 900;"/>
+        </VBox>
+        
+        <VBox styleClass="metric-card" HBox.hgrow="ALWAYS" style="-fx-border-color: rgba(245, 87, 108, 0.2);">
+            <Label text="KAM QOLGAN MAHSULOTLAR" styleClass="metric-label" style="-fx-text-fill: #f5576c;"/>
+            <Label text="3" styleClass="metric-value" style="-fx-text-fill: #f5576c;">
+                <graphic><FontAwesomeIconView glyphName="EXCLAMATION_TRIANGLE" size="24" style="-fx-fill: #f5576c;"/></graphic>
+            </Label>
+            <Label text="DARHOL TO'LDIRISH TAVSIYA ETILADI" style="-fx-text-fill: #f5576c; -fx-font-size: 10px; -fx-font-weight: 900;"/>
+        </VBox>
+    </HBox>
+    
+    <VBox spacing="15" VBox.vgrow="ALWAYS">
+        <Label text="OXIRGI HARAKATLAR" styleClass="metric-label"/>
+        <VBox styleClass="glass-pane" VBox.vgrow="ALWAYS" alignment="CENTER" spacing="15">
+             <FontAwesomeIconView glyphName="HISTORY" size="40" style="-fx-fill: rgba(255,255,255,0.05);"/>
+             <Label text="Hozircha oxirgi harakatlar mavjud emas." style="-fx-text-fill: #5a5a70; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+        </VBox>
+    </VBox>
+</VBox>

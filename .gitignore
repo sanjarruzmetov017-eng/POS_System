@@ -1,0 +1,17 @@
+target/
+*.log
+*.db
+*.mv.db
+.idea/
+*.iml
+.DS_Store
+*.deb
+*.rpm
+*.msi
+dist/
+release/
+.vscode/
+app_log.txt
+error_log.txt
+logs.txt
+cp.txt

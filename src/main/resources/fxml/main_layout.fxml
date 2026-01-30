@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.smartpos.ui.MainController" stylesheets="@../css/styles.css">
+    <left>
+        <VBox styleClass="sidebar" spacing="15" prefWidth="280">
+            <VBox spacing="5" style="-fx-padding: 0 0 40 10;">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="SMART" styleClass="label-header" style="-fx-text-fill: white; -fx-padding: 0;"/>
+                    <Label text="POS" styleClass="label-header" style="-fx-padding: 0;"/>
+                </HBox>
+                <Label fx:id="storeNameLabel" text="PREMIUM STORE" style="-fx-text-fill: #00f2fe; -fx-font-size: 10px; -fx-font-weight: 900; -fx-letter-spacing: 2px;"/>
+            </VBox>
+            
+            <Label text="NAVIGATION" style="-fx-text-fill: #5a5a70; -fx-font-size: 10px; -fx-font-weight: 900; -fx-padding: 0 0 5 15;"/>
+            
+            <Button text="DASHBOARD" maxWidth="Infinity" styleClass="nav-button" onAction="#showDashboard">
+                <graphic><FontAwesomeIconView glyphName="DASHBOARD" size="16" styleClass="glyph-icon"/></graphic>
+            </Button>
+            
+            <Button text="NEW SALE" maxWidth="Infinity" styleClass="nav-button" onAction="#showSales" style="-fx-text-fill: #00f2fe; -fx-background-color: rgba(0, 242, 254, 0.05);">
+                <graphic><FontAwesomeIconView glyphName="SHOPPING_CART" size="16" styleClass="glyph-icon" style="-fx-fill: #00f2fe;"/></graphic>
+            </Button>
+            
+            <Button fx:id="productsBtn" text="PRODUCTS" maxWidth="Infinity" styleClass="nav-button" onAction="#showProducts">
+                <graphic><FontAwesomeIconView glyphName="CUBE" size="16" styleClass="glyph-icon"/></graphic>
+            </Button>
+            
+            <StackPane alignment="CENTER_LEFT">
+                <Button fx:id="inventoryBtn" text="INVENTORY" maxWidth="Infinity" styleClass="nav-button" onAction="#showInventory">
+                    <graphic><FontAwesomeIconView glyphName="ARCHIVE" size="16" styleClass="glyph-icon"/></graphic>
+                </Button>
+                <HBox mouseTransparent="true" alignment="CENTER_RIGHT" fx:id="lowStockBadge" visible="false">
+                    <StackPane alignment="CENTER" style="-fx-padding: 0 15 0 0;">
+                        <Circle radius="8" fill="#f5576c"/>
+                        <Label fx:id="lowStockLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 9px; -fx-font-weight: 900;"/>
+                    </StackPane>
+                </HBox>
+            </StackPane>
+            
+            <Button fx:id="customersBtn" text="CUSTOMERS" maxWidth="Infinity" styleClass="nav-button" onAction="#showCustomers">
+                <graphic><FontAwesomeIconView glyphName="USERS" size="16" styleClass="glyph-icon"/></graphic>
+            </Button>
+            
+            <Button fx:id="expensesBtn" text="EXPENSES" maxWidth="Infinity" styleClass="nav-button" onAction="#showExpenses">
+                <graphic><FontAwesomeIconView glyphName="MONEY" size="16" styleClass="glyph-icon"/></graphic>
+            </Button>
+            
+            <Button fx:id="reportsBtn" text="ANALYTICS" maxWidth="Infinity" styleClass="nav-button" onAction="#showReports">
+                <graphic><FontAwesomeIconView glyphName="BAR_CHART" size="16" styleClass="glyph-icon"/></graphic>
+            </Button>
+            
+            <Region VBox.vgrow="ALWAYS"/>
+            
+            <Label text="SYSTEM" style="-fx-text-fill: #5a5a70; -fx-font-size: 10px; -fx-font-weight: 900; -fx-padding: 0 0 5 15;"/>
+            
+            <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-padding: 0 0 15 15;">
+                <Circle fx:id="statusCircle" radius="5" fill="#f5576c">
+                    <effect><GaussianBlur radius="5"/></effect>
+                </Circle>
+                <Label fx:id="statusLabel" text="OFFLINE" style="-fx-text-fill: #5a5a70; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <Button fx:id="adminBtn" text="ADMIN PANEL" maxWidth="Infinity" styleClass="nav-button" onAction="#showAdmin" style="-fx-text-fill: #f1c40f;">
+                <graphic><FontAwesomeIconView glyphName="GEARS" size="16" styleClass="glyph-icon" style="-fx-fill: #f1c40f;"/></graphic>
+            </Button>
+            
+            <Button fx:id="settingsBtn" text="SETTINGS" maxWidth="Infinity" styleClass="nav-button" onAction="#showSettings">
+                <graphic><FontAwesomeIconView glyphName="COG" size="16" styleClass="glyph-icon"/></graphic>
+            </Button>
+            
+            <Button text="LOGOUT" maxWidth="Infinity" styleClass="nav-button" onAction="#handleLogout" style="-fx-text-fill: #f5576c;">
+                <graphic><FontAwesomeIconView glyphName="SIGN_OUT" size="16" styleClass="glyph-icon" style="-fx-fill: #f5576c;"/></graphic>
+            </Button>
+        </VBox>
+    </left>
+    
+    <center>
+        <StackPane fx:id="contentArea">
+            <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+            
+             <VBox spacing="30">
+                <HBox alignment="BOTTOM_LEFT" spacing="20">
+                    <VBox spacing="5">
+                        <Label text="SYSTEM OVERVIEW" style="-fx-text-fill: #00f2fe; -fx-font-size: 12px; -fx-font-weight: 900; -fx-letter-spacing: 3px;"/>
+                        <Label text="Real-time Metrics" styleClass="view-title"/>
+                    </VBox>
+                </HBox>
+                
+                <HBox spacing="25">
+                    <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                        <Label text="TOTAL REVENUE" styleClass="metric-label"/>
+                        <Label text="42,910 SO'M" styleClass="metric-value">
+                            <graphic><FontAwesomeIconView glyphName="LINE_CHART" size="24" style="-fx-fill: #00f2fe;"/></graphic>
+                        </Label>
+                        <Label text="+ 12% FROM YESTERDAY" style="-fx-text-fill: #43e97b; -fx-font-size: 11px; -fx-font-weight: 900;"/>
+                    </VBox>
+                    
+                    <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                        <Label text="TOTAL SALES" styleClass="metric-label"/>
+                        <Label text="856" styleClass="metric-value">
+                            <graphic><FontAwesomeIconView glyphName="SHOPPING_BAG" size="24" style="-fx-fill: #f093fb;"/></graphic>
+                        </Label>
+                        <Label text="+ 5 NEW ORDERS" style="-fx-text-fill: #f093fb; -fx-font-size: 11px; -fx-font-weight: 900;"/>
+                    </VBox>
+                    
+                    <VBox styleClass="metric-card" HBox.hgrow="ALWAYS">
+                        <Label text="ACTIVE STAFF" styleClass="metric-label"/>
+                        <Label text="12" styleClass="metric-value">
+                            <graphic><FontAwesomeIconView glyphName="USERS" size="24" style="-fx-fill: #4facfe;"/></graphic>
+                        </Label>
+                        <Label text="ALL SESSIONS SECURE" style="-fx-text-fill: #4facfe; -fx-font-size: 11px; -fx-font-weight: 900;"/>
+                    </VBox>
+                </HBox>
+                
+                <VBox styleClass="glass-pane" VBox.vgrow="ALWAYS" spacing="15">
+                     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+                     <Label text="RECENT ACTIVITY" styleClass="metric-label"/>
+                     <TableView fx:id="recentSalesTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+                        <!-- Columns will be added via controller -->
+                     </TableView>
+                </VBox>
+             </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

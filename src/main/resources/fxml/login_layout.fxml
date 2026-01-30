@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.smartpos.ui.LoginController" stylesheets="@../css/styles.css">
+    <!-- Extreme Dynamic Background -->
+    <Region style="-fx-background-color: #0a0a12;"/>
+    
+    <!-- Animated-style Glows -->
+    <Circle radius="400" fill="#00f2fe15" managed="false" StackPane.alignment="TOP_LEFT" translateX="-150" translateY="-150">
+        <effect><GaussianBlur radius="80"/></effect>
+    </Circle>
+    <Circle radius="350" fill="#f5576c15" managed="false" StackPane.alignment="BOTTOM_RIGHT" translateX="100" translateY="100">
+        <effect><GaussianBlur radius="100"/></effect>
+    </Circle>
+    <Circle radius="250" fill="#4facfe10" managed="false" StackPane.alignment="CENTER" translateX="200" translateY="-200">
+        <effect><GaussianBlur radius="90"/></effect>
+    </Circle>
+
+    <VBox alignment="CENTER" spacing="35" maxWidth="500" styleClass="glass-pane">
+        <padding><Insets top="50" right="50" bottom="50" left="50"/></padding>
+        
+        <VBox alignment="CENTER" spacing="5">
+            <Label text="SMARTPOS" styleClass="label-header" style="-fx-font-size: 42px; -fx-letter-spacing: 5px;"/>
+            <Label text="ENTERPRISE SAAS EDITION" style="-fx-text-fill: #5a5a70; -fx-font-size: 11px; -fx-font-weight: 900; -fx-text-transform: uppercase;"/>
+        </VBox>
+        
+        <TabPane fx:id="loginTabPane" tabClosingPolicy="UNAVAILABLE" style="-fx-min-height: 380;">
+            <Tab text="OFFICE LOGIN">
+                <VBox spacing="25" style="-fx-padding: 30 0 0 0;">
+                    <VBox spacing="10">
+                         <Label text="LOGIN ID" style="-fx-text-fill: #8e8ea0; -fx-font-size: 11px; -fx-font-weight: 900;"/>
+                         <TextField fx:id="usernameField" promptText="Your username" />
+                    </VBox>
+
+                    <VBox spacing="10">
+                         <Label text="SECURITY KEY" style="-fx-text-fill: #8e8ea0; -fx-font-size: 11px; -fx-font-weight: 900;"/>
+                         <PasswordField fx:id="passwordField" promptText="••••••••" />
+                    </VBox>
+                    
+                    <Button text="ACCESS DASHBOARD" onAction="#handleLogin" defaultButton="true" maxWidth="Infinity" styleClass="button-primary"/>
+                </VBox>
+            </Tab>
+            
+            <Tab text="FAST PIN ACCESS">
+                <VBox spacing="20" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
+                    <PasswordField fx:id="pinField" promptText="••••" editable="false" 
+                                  style="-fx-alignment: center; -fx-font-size: 32px; -fx-background-color: rgba(255,255,255,0.02); -fx-border-color: rgba(255,255,255,0.05);"/>
+                    
+                    <GridPane hgap="15" vgap="15" alignment="CENTER">
+                        <Button text="1" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70"/>
+                        <Button text="2" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.columnIndex="1"/>
+                        <Button text="3" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.columnIndex="2"/>
+                        
+                        <Button text="4" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.rowIndex="1"/>
+                        <Button text="5" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Button text="6" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        
+                        <Button text="7" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.rowIndex="2"/>
+                        <Button text="8" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Button text="9" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        
+                        <Button text="RESET" onAction="#handlePinClear" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.rowIndex="3" style="-fx-text-fill: #f5576c; -fx-font-size: 12px;"/>
+                        <Button text="0" onAction="#handlePinKey" styleClass="button-secondary" prefWidth="70" prefHeight="70" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        <Button text="ENTER" onAction="#handlePinLogin" styleClass="button-primary" prefWidth="70" prefHeight="70" GridPane.columnIndex="2" GridPane.rowIndex="3" style="-fx-font-size: 12px;"/>
+                    </GridPane>
+                </VBox>
+            </Tab>
+        </TabPane>
+
+        <VBox alignment="CENTER" spacing="10">
+            <Label fx:id="errorLabel" text="" style="-fx-text-fill: #f5576c; -fx-font-weight: bold;"/>
+            <HBox alignment="CENTER" spacing="20">
+                <Label text="FORGOT ACCESS?" style="-fx-text-fill: #00f2fe; -fx-cursor: hand; -fx-font-size: 10px; -fx-font-weight: 900;"/>
+                <Separator orientation="VERTICAL" style="-fx-opacity: 0.1;"/>
+                <Label text="REQUEST ACCESS" style="-fx-text-fill: #00f2fe; -fx-cursor: hand; -fx-font-size: 10px; -fx-font-weight: 900;"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</StackPane>

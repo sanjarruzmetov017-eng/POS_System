@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" styleClass="content-area" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.smartpos.ui.ShiftViewController">
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="Smenalarni boshqarish va solishtirish" styleClass="header-label"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Yangilash" onAction="#initialize" styleClass="button-secondary"/>
+    </HBox>
+
+    <TableView fx:id="shiftTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="colUser" text="Kassir" prefWidth="120"/>
+            <TableColumn fx:id="colStatus" text="Holati" prefWidth="80"/>
+            <TableColumn fx:id="colStart" text="Boshlandi" prefWidth="150"/>
+            <TableColumn fx:id="colEnd" text="Yakunlandi" prefWidth="150"/>
+            <TableColumn fx:id="colStartCash" text="Boshlang'ich naqd pul" prefWidth="100"/>
+            <TableColumn fx:id="colActualCash" text="Yakuniy naqd pul" prefWidth="100"/>
+            <TableColumn fx:id="colDiscrepancy" text="Farq" prefWidth="100"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+
+</VBox>

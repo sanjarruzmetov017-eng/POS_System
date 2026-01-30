@@ -1,0 +1,203 @@
+/* 
+   ==========================================================================
+   SMARTPOS - EXTREME PREMIUM DESIGN SYSTEM
+   Theme: Midnight Neon (Glassmorphism + Vibrant Gradients)
+   ==========================================================================
+*/
+
+.root {
+    -fx-font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    -fx-base: #0a0a12;
+    -fx-background-color: linear-gradient(to bottom right, #0a0a12, #14142b, #0a0a12);
+    -fx-text-fill: #f8f9fa;
+
+    /* Vibrant Color Tokens */
+    -accent-primary: linear-gradient(to right, #00f2fe, #4facfe);
+    -accent-vibrant: linear-gradient(to right, #f093fb, #f5576c);
+    -accent-success: linear-gradient(to right, #43e97b, #38f9d7);
+    -accent-glow: rgba(79, 172, 254, 0.4);
+}
+
+/* Glassmorphism Core */
+.glass-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-width: 0.8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 20, 0, 0, 10);
+}
+
+/* Sidebar - Sleek & Modern */
+.sidebar {
+    -fx-background-color: rgba(10, 10, 18, 0.6);
+    -fx-background-radius: 0 30 30 0;
+    -fx-padding: 40 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 15, 0, 5, 0);
+    -fx-border-color: rgba(255, 255, 255, 0.05);
+    -fx-border-width: 0 1 0 0;
+}
+
+.label-header {
+    -fx-font-size: 32px;
+    -fx-font-weight: 900;
+    -fx-text-fill: linear-gradient(to right, #00f2fe, #4facfe);
+    -fx-effect: dropshadow(gaussian, rgba(0, 242, 254, 0.5), 15, 0.4, 0, 0);
+    -fx-padding: 0 0 40 0;
+}
+
+/* Navigation Buttons */
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8e8ea0;
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 15 20;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: #ffffff;
+    -fx-translate-x: 8;
+}
+
+/* Action Buttons (Primary) */
+.button-primary {
+    -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
+    -fx-text-fill: white;
+    -fx-font-weight: 900;
+    -fx-font-size: 15px;
+    -fx-background-radius: 30;
+    -fx-padding: 12 30;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(79, 172, 254, 0.5), 15, 0, 0, 5);
+}
+
+.button-primary:hover {
+    -fx-brightness: 1.1;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Secondary Button - Glassy */
+.button-secondary {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 30;
+    -fx-padding: 12 30;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 30;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Inputs with Neon Focus */
+.text-field,
+.password-field {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #5a5a70;
+    -fx-background-radius: 12;
+    -fx-padding: 15;
+    -fx-font-size: 15px;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 12;
+}
+
+.text-field:focused,
+.password-field:focused {
+    -fx-border-color: #00f2fe;
+    -fx-background-color: rgba(255, 255, 255, 0.07);
+    -fx-effect: dropshadow(gaussian, rgba(0, 242, 254, 0.3), 10, 0, 0, 0);
+}
+
+/* Card Style for Metrics */
+.metric-card {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 25;
+    -fx-padding: 25;
+    -fx-border-color: rgba(255, 255, 255, 0.05);
+    -fx-border-radius: 25;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 15, 0, 0, 10);
+}
+
+.metric-value {
+    -fx-font-size: 36px;
+    -fx-font-weight: 900;
+    -fx-text-fill: white;
+}
+
+.metric-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #8e8ea0;
+    -fx-font-weight: 700;
+    -fx-text-transform: uppercase;
+}
+
+/* Table View - Premium Dark */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: rgba(255, 255, 255, 0.02);
+    -fx-padding: 10 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 50;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #8e8ea0;
+    -fx-font-weight: 800;
+    -fx-font-size: 13px;
+    -fx-text-transform: uppercase;
+}
+
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 10 0;
+    -fx-border-color: rgba(255, 255, 255, 0.02);
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+}
+
+.table-row-cell:selected {
+    -fx-background-color: rgba(0, 242, 254, 0.1);
+    -fx-border-color: #00f2fe;
+}
+
+/* Custom List Cells (Products) */
+.product-cell {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 15;
+    -fx-padding: 15;
+    -fx-border-color: rgba(255, 255, 255, 0.05);
+    -fx-border-radius: 15;
+}
+
+.product-cell:hover {
+    -fx-translate-y: -5;
+    -fx-border-color: #00f2fe;
+}
+
+/* View Titles */
+.view-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: 900;
+    -fx-text-fill: white;
+    -fx-padding: 0 0 30 0;
+}

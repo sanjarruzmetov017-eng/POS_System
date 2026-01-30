@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="20" stylesheets="@../css/styles.css" fx:controller="com.smartpos.ui.ProductViewController">
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="Mahsulotlar" styleClass="label-header"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="+ Yangi mahsulot" styleClass="button-primary" onAction="#handleNewProduct"/>
+    </HBox>
+    
+    <!-- Search Bar -->
+    <TextField fx:id="searchField" promptText="Mahsulotlarni qidirish..." maxWidth="300" />
+    
+    <!-- Product Table -->
+    <TableView fx:id="productTable" VBox.vgrow="ALWAYS" styleClass="glass-pane">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+            <TableColumn fx:id="colName" text="Nomi" prefWidth="250" />
+            <TableColumn fx:id="colCategory" text="Kategoriya" prefWidth="150" />
+            <TableColumn fx:id="colPrice" text="Narxi" prefWidth="100" />
+            <TableColumn fx:id="colStock" text="Zaxira" prefWidth="100" />
+            <TableColumn fx:id="colAction" text="Harakat" prefWidth="100" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+</VBox>
