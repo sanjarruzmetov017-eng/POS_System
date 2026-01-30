@@ -2,7 +2,7 @@ package com.smartpos.ui;
 
 import com.smartpos.model.Customer;
 import com.smartpos.service.CustomerService;
-
+import com.smartpos.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,6 +16,9 @@ public class CustomersViewController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private NotificationUtil notificationUtil;
 
     @FXML
     private TextField searchField;
@@ -125,10 +128,12 @@ public class CustomersViewController {
     }
 
     private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.show();
+        if ("Success".equalsIgnoreCase(title)) {
+            notificationUtil.showSuccess(title, content);
+        } else if ("Error".equalsIgnoreCase(title)) {
+            notificationUtil.showError(title, content);
+        } else {
+            notificationUtil.showInfo(title, content);
+        }
     }
 }

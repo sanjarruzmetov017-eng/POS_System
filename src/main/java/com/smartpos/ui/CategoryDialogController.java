@@ -3,6 +3,7 @@ package com.smartpos.ui;
 import com.smartpos.model.Category;
 import com.smartpos.service.CategoryService;
 import com.smartpos.util.AppSession;
+import com.smartpos.util.NotificationUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -19,6 +20,9 @@ public class CategoryDialogController {
 
     @Autowired
     private AppSession session;
+
+    @Autowired
+    private NotificationUtil notificationUtil;
 
     @FXML
     private TextField nameField;
@@ -72,10 +76,11 @@ public class CategoryDialogController {
     }
 
     private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
+        if ("Xatolik".equalsIgnoreCase(title)) {
+            notificationUtil.showError(title, content);
+        } else {
+            notificationUtil.showInfo(title, content);
+        }
     }
 
     private void closeStage() {

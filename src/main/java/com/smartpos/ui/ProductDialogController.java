@@ -5,6 +5,7 @@ import com.smartpos.model.Product;
 import com.smartpos.service.CategoryService;
 import com.smartpos.service.ProductService;
 import com.smartpos.util.AppSession;
+import com.smartpos.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -37,6 +38,9 @@ public class ProductDialogController {
 
     @Autowired
     private AppSession session;
+
+    @Autowired
+    private NotificationUtil notificationUtil;
 
     @FXML
     private TextField nameField;
@@ -260,10 +264,13 @@ public class ProductDialogController {
     }
 
     private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
+        if ("Xatolik".equalsIgnoreCase(title)) {
+            notificationUtil.showError(title, content);
+        } else if ("Ogohlantirish".equalsIgnoreCase(title)) {
+            notificationUtil.showWarning(title, content);
+        } else {
+            notificationUtil.showInfo(title, content);
+        }
     }
 
     private void closeStage() {

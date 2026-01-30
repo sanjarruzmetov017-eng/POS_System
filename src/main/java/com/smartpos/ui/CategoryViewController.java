@@ -2,6 +2,7 @@ package com.smartpos.ui;
 
 import com.smartpos.model.Category;
 import com.smartpos.service.CategoryService;
+import com.smartpos.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -25,6 +26,9 @@ public class CategoryViewController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private NotificationUtil notificationUtil;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -134,9 +138,14 @@ public class CategoryViewController {
     }
 
     private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
+        if ("Success".equalsIgnoreCase(title)) {
+            notificationUtil.showSuccess(title, content);
+        } else if ("Error".equalsIgnoreCase(title)) {
+            notificationUtil.showError(title, content);
+        } else if ("Xatolik".equalsIgnoreCase(title)) { // Assuming "Xatolik" should be an error
+            notificationUtil.showError(title, content);
+        } else {
+            notificationUtil.showInfo(title, content);
+        }
     }
 }

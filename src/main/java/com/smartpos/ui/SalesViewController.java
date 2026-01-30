@@ -4,6 +4,7 @@ import com.smartpos.model.Product;
 import com.smartpos.model.Sale;
 import com.smartpos.service.ProductService;
 import com.smartpos.service.SaleService;
+import com.smartpos.util.NotificationUtil;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,6 +30,8 @@ public class SalesViewController {
     private ProductService productService;
     @Autowired
     private SaleService saleService;
+    @Autowired
+    private NotificationUtil notificationUtil;
     @Autowired
     private com.smartpos.service.ReceiptService receiptService;
     @Autowired
@@ -259,11 +262,13 @@ public class SalesViewController {
     }
 
     private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.show();
+        if ("Success".equalsIgnoreCase(title)) {
+            notificationUtil.showSuccess(title, content);
+        } else if ("Error".equalsIgnoreCase(title)) {
+            notificationUtil.showError(title, content);
+        } else {
+            notificationUtil.showInfo(title, content);
+        }
     }
 
     private void updateTotal() {

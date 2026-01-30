@@ -279,3 +279,75 @@
     -fx-text-fill: white;
     -fx-padding: 0 0 30 0;
 }
+
+/* 
+   ==========================================================================
+   DIALOGS & ALERTS (Glassmorphism Overhaul)
+   ==========================================================================
+*/
+.dialog-pane {
+    -fx-background-color: linear-gradient(to bottom right, rgba(20, 20, 40, 0.95), rgba(10, 10, 20, 0.98));
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.dialog-pane>.container {
+    -fx-background-color: transparent;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #e0e0f8;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 20 20 0 0;
+    -fx-padding: 20;
+}
+
+.dialog-pane:header .header-panel .label {
+    -fx-font-size: 18px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #00f2fe;
+}
+
+.dialog-pane .button-bar {
+    -fx-padding: 15;
+}
+
+.dialog-pane .button {
+    -fx-background-radius: 30;
+    -fx-padding: 8 20;
+    -fx-font-weight: 700;
+    -fx-cursor: hand;
+}
+
+/* Custom Alert Specifics */
+.custom-alert-container {
+    -fx-background-color: linear-gradient(to bottom right, rgba(25, 25, 50, 0.9), rgba(15, 15, 30, 0.95));
+    -fx-background-radius: 25;
+    -fx-border-color: rgba(0, 242, 254, 0.2);
+    -fx-border-width: 2;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 242, 254, 0.15), 30, 0, 0, 0);
+}
+
+.alert-icon-success {
+    -fx-fill: #43e97b;
+}
+
+.alert-icon-error {
+    -fx-fill: #f5576c;
+}
+
+.alert-icon-warning {
+    -fx-fill: #f1c40f;
+}
+
+.alert-icon-info {
+    -fx-fill: #00f2fe;
+}

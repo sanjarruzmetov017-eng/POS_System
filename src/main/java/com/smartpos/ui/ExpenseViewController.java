@@ -2,6 +2,7 @@ package com.smartpos.ui;
 
 import com.smartpos.model.Expense;
 import com.smartpos.service.ExpenseService;
+import com.smartpos.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,6 +19,9 @@ public class ExpenseViewController {
 
     @Autowired
     private ExpenseService expenseService;
+
+    @Autowired
+    private NotificationUtil notificationUtil;
 
     @Autowired
     private com.smartpos.service.UserService userService;
@@ -86,6 +90,14 @@ public class ExpenseViewController {
         totalExpensesLabel.setText("$" + String.format("%.2f", total));
     }
 
+    private void showAlert(String title, String content) {
+        if ("Xatolik".equalsIgnoreCase(title)) {
+            notificationUtil.showError(title, content);
+        } else {
+            notificationUtil.showInfo(title, content);
+        }
+    }
+
     @FXML
     public void handleAddExpense() {
         // Simple manual input dialog for now
@@ -112,9 +124,7 @@ public class ExpenseViewController {
                     expenseService.save(expense);
                     loadExpenses();
                 } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Invalid amount.");
-                    alert.show();
+                    showAlert("Xatolik", "Invalid amount.");
                 }
             }
         }
