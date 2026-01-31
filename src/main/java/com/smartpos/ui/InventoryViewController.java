@@ -2,6 +2,7 @@ package com.smartpos.ui;
 
 import com.smartpos.model.Product;
 import com.smartpos.service.ProductService;
+import com.smartpos.util.NotificationUtil;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,6 +20,9 @@ public class InventoryViewController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private NotificationUtil notificationUtil;
 
     @Autowired
     private com.smartpos.repository.PriceHistoryRepository priceHistoryRepository;
@@ -245,10 +249,10 @@ public class InventoryViewController {
     }
 
     private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.show();
+        if ("Xatolik".equalsIgnoreCase(title)) {
+            notificationUtil.showError(title, content);
+        } else {
+            notificationUtil.showInfo(title, content);
+        }
     }
 }

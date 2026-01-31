@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" spacing="20" stylesheets="@../css/styles.css" fx:controller="com.smartpos.ui.ProductViewController">
     <HBox alignment="CENTER_LEFT" spacing="20">

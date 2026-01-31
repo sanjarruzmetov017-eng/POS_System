@@ -10,10 +10,14 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "barcode", "tenant_id" })
+})
 public class Product {
     @ManyToOne(optional = false)
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,8 +25,7 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
-    private String barcode;
+    private String barcode; // Uniqueness handled by @Table constraint now
 
     private String description;
 
@@ -32,7 +35,7 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal costPrice;
 
-    private BigDecimal stockQuantity; // Changed from int to BigDecimal for KG support
+    private BigDecimal stockQuantity;
     private BigDecimal lowStockThreshold;
 
     @Enumerated(EnumType.STRING)
@@ -48,7 +51,10 @@ public class Product {
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
-    private String imageUrl;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "image_url")
+    private java.util.List<String> imageUrls = new java.util.ArrayList<>();
 
     public enum UnitType {
         PIECE, KG, GRAM, LITER, PACK

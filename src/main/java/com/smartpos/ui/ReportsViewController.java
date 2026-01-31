@@ -41,6 +41,9 @@ public class ReportsViewController {
     private AuditLogService auditLogService;
 
     @Autowired
+    private com.smartpos.util.NotificationUtil notificationUtil;
+
+    @Autowired
     private com.smartpos.util.AppSession session;
 
     @FXML
@@ -88,18 +91,30 @@ public class ReportsViewController {
 
     @FXML
     public void initialize() {
-        setupTable();
-        setupAuditTable();
-        loadData();
+        try {
+            setupTable();
+            setupAuditTable();
+            loadData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (notificationUtil != null) {
+                notificationUtil.showError("Xatolik", "Analitika ma'lumotlarini yuklashda xato: " + e.getMessage());
+            }
+        }
     }
 
     private void setupTable() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDate.setCellValueFactory(data -> {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            return new javafx.beans.property.SimpleStringProperty(data.getValue().getDate().format(formatter));
+            String dateStr = "-";
+            if (data.getValue().getDate() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                dateStr = data.getValue().getDate().format(formatter);
+            }
+            return new javafx.beans.property.SimpleStringProperty(dateStr);
         });
-        colAmount.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
+        colAmount.setCellValueFactory(data -> new javafx.beans.property.SimpleObjectProperty<>(
+                data.getValue().getTotalAmount() != null ? data.getValue().getTotalAmount() : BigDecimal.ZERO));
         colMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
 
         colAction.setCellFactory(param -> new javafx.scene.control.TableCell<>() {
@@ -141,11 +156,23 @@ public class ReportsViewController {
     }
 
     private void handleRefund(Sale sale) {
+        // We still need a confirmation dialog. For now, since NotificationUtil doesn't
+        // have a confirmation helper yet,
+        // I'll keep Alert for confirmation but style it, or I should ideally add
+        // confirm to NotificationUtil.
+        // Let's use NotificationUtil's showInfo/showError for results.
+
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
                 javafx.scene.control.Alert.AlertType.CONFIRMATION);
         alert.setTitle("Qaytarish jarayoni");
         alert.setHeaderText("Savdo uchun qaytarishni tasdiqlang #" + sale.getId());
         alert.setContentText("Bu mahsulotlarni omborga qaytaradi. Ishonchingiz komilmi?");
+
+        // Ensure style is applied
+        if (alert.getDialogPane().getScene() != null) {
+            alert.getDialogPane().getScene().getStylesheets()
+                    .add(getClass().getResource("/css/styles.css").toExternalForm());
+        }
 
         java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == javafx.scene.control.ButtonType.OK) {
@@ -157,9 +184,11 @@ public class ReportsViewController {
                         "Savdo #" + sale.getId() + " qaytarildi (Summa: " + sale.getTotalAmount() + ")",
                         "Sale", sale.getId());
 
+                notificationUtil.showSuccess("Qaytarildi", "Savdo muvaffaqiyatli qaytarildi.");
                 loadData(); // Refresh stats and table
             } catch (Exception e) {
                 e.printStackTrace();
+                notificationUtil.showError("Xatolik", "Qaytarishda xato yuz berdi: " + e.getMessage());
             }
         }
     }
@@ -169,7 +198,7 @@ public class ReportsViewController {
 
         // Stats
         BigDecimal totalRevenue = allSales.stream()
-                .map(Sale::getTotalAmount)
+                .map(s -> s.getTotalAmount() != null ? s.getTotalAmount() : BigDecimal.ZERO)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         totalRevenueLabel.setText(String.format("%.2f", totalRevenue));
@@ -200,11 +229,21 @@ public class ReportsViewController {
         salesChart.getData().clear();
         salesChart.getData().add(series);
 
+        // Apply Premium Color to BarChart series nodes
+        for (XYChart.Data<String, Number> data : series.getData()) {
+            if (data.getNode() != null) {
+                // Neon Cyan for bars
+                data.getNode().setStyle("-fx-bar-fill: #00f2fe; -fx-opacity: 0.8;");
+            }
+        }
+
         // Employee Performance (Sales by User)
         Map<String, BigDecimal> salesByUser = allSales.stream()
                 .filter(s -> s.getUser() != null)
                 .collect(Collectors.groupingBy(s -> s.getUser().getUsername(),
-                        Collectors.reducing(BigDecimal.ZERO, Sale::getPaidAmount, BigDecimal::add)));
+                        Collectors.reducing(BigDecimal.ZERO,
+                                s -> s.getPaidAmount() != null ? s.getPaidAmount() : BigDecimal.ZERO,
+                                BigDecimal::add)));
 
         StringBuilder performanceSb = new StringBuilder("Xodimlar samaradorligi:\n");
         salesByUser.forEach((user, total) -> performanceSb.append(String.format("%s: %.2f so'm\n", user, total)));
@@ -217,9 +256,13 @@ public class ReportsViewController {
 
         // Top Products Logic
         java.util.Map<String, BigDecimal> productQuantities = allSales.stream()
+                .filter(s -> s.getItems() != null)
                 .flatMap(s -> s.getItems().stream())
-                .collect(java.util.stream.Collectors.groupingBy(item -> item.getProduct().getName(),
-                        java.util.stream.Collectors.reducing(BigDecimal.ZERO, com.smartpos.model.SaleItem::getQuantity,
+                .filter(item -> item != null && item.getProduct() != null)
+                .collect(java.util.stream.Collectors.groupingBy(
+                        item -> item.getProduct().getName() != null ? item.getProduct().getName() : "Unknown",
+                        java.util.stream.Collectors.reducing(BigDecimal.ZERO,
+                                item -> item.getQuantity() != null ? item.getQuantity() : BigDecimal.ZERO,
                                 BigDecimal::add)));
 
         javafx.collections.ObservableList<javafx.scene.chart.PieChart.Data> pieData = FXCollections
@@ -232,18 +275,38 @@ public class ReportsViewController {
 
         topProductsChart.setData(pieData);
 
+        // Apply Premium Colors to PieChart
+        String[] neonColors = { "#00f2fe", "#f093fb", "#43e97b", "#f5576c", "#f1c40f", "#9b59b6", "#3498db", "#1abc9c",
+                "#e67e22", "#95a5a6" };
+        for (int i = 0; i < pieData.size(); i++) {
+            javafx.scene.chart.PieChart.Data data = pieData.get(i);
+            String color = neonColors[i % neonColors.length];
+            if (data.getNode() != null) {
+                data.getNode().setStyle("-fx-pie-color: " + color + "; -fx-opacity: 0.8;");
+            }
+        }
+
         // Net Profit Logic
         BigDecimal totalCogs = allSales.stream()
-                .filter(s -> !"REFUNDED".equals(s.getPaymentMethod())) // Don't count profit on refunded sales
+                .filter(s -> !"REFUNDED".equals(s.getPaymentMethod()))
+                .filter(s -> s.getItems() != null)
                 .flatMap(s -> s.getItems().stream())
-                .map(item -> item.getProduct().getCostPrice().multiply(item.getQuantity()))
+                .map(item -> {
+                    if (item != null && item.getProduct() != null) {
+                        BigDecimal cost = item.getProduct().getCostPrice() != null ? item.getProduct().getCostPrice()
+                                : BigDecimal.ZERO;
+                        BigDecimal qty = item.getQuantity() != null ? item.getQuantity() : BigDecimal.ZERO;
+                        return cost.multiply(qty);
+                    }
+                    return BigDecimal.ZERO;
+                })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal netProfit = totalRevenue.subtract(totalCogs);
 
         // Deduct expenses to get Bottom Line Profit
         BigDecimal totalExpenses = expenseService.findAll().stream()
-                .map(com.smartpos.model.Expense::getAmount)
+                .map(e -> e.getAmount() != null ? e.getAmount() : BigDecimal.ZERO)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal bottomLineProfit = netProfit.subtract(totalExpenses);

@@ -21,7 +21,7 @@ public class NotificationUtil {
     public void show(String title, String message, CustomAlertController.AlertType type) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/custom_alert.fxml"));
-            loader.setControllerFactory(context::getBean);
+            loader.setControllerFactory(clazz -> context.getBean(clazz));
             Parent root = loader.load();
 
             CustomAlertController controller = loader.getController();
@@ -32,15 +32,22 @@ public class NotificationUtil {
             stage.initStyle(StageStyle.TRANSPARENT);
 
             Scene scene = new Scene(root);
+            String css = getClass().getResource("/css/styles.css").toExternalForm();
+            scene.getStylesheets().add(css);
             scene.setFill(Color.TRANSPARENT);
             stage.setScene(scene);
 
+            // Center on parent stage if possible (optional)
             stage.showAndWait();
         } catch (Exception e) {
+            System.err.println("❌ Failed to show custom alert: " + e.getMessage());
             e.printStackTrace();
+
             // Fallback to standard alert if custom fails
             javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
                     javafx.scene.control.Alert.AlertType.INFORMATION);
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            alert.getDialogPane().getStyleClass().add("glass-pane");
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(message);

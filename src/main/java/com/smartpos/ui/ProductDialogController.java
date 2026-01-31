@@ -11,6 +11,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
+import javafx.geometry.Pos;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,12 +62,13 @@ public class ProductDialogController {
     @FXML
     private TextField thresholdField;
     @FXML
-    private ImageView productImageView;
+    private VBox imageFlowPane;
     @FXML
-    private Label imagePlaceholderLabel;
+    private StackPane imagePlaceholder;
 
     private Product product;
-    private File selectedImageFile;
+    private java.util.List<File> newImageFiles = new java.util.ArrayList<>();
+    private java.util.List<String> existingImageUrls = new java.util.ArrayList<>();
     private boolean saved = false;
 
     private static final String IMAGE_DIR = System.getProperty("user.home") + File.separator + ".smartpos"
@@ -108,22 +112,55 @@ public class ProductDialogController {
             thresholdField.setText(
                     product.getLowStockThreshold() != null ? product.getLowStockThreshold().toString() : "0.00");
 
-            if (product.getImageUrl() != null) {
-                loadImage(product.getImageUrl());
+            if (product.getImageUrls() != null) {
+                existingImageUrls.addAll(product.getImageUrls());
+                refreshImageUI();
             }
         }
     }
 
-    private void loadImage(String url) {
-        try {
-            File file = new File(url);
-            if (file.exists()) {
-                productImageView.setImage(new Image(file.toURI().toString()));
-                imagePlaceholderLabel.setVisible(false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void refreshImageUI() {
+        imageFlowPane.getChildren().clear();
+        imagePlaceholder.setVisible(existingImageUrls.isEmpty() && newImageFiles.isEmpty());
+
+        // Existing
+        for (String url : existingImageUrls) {
+            addImageThumbnail(url, false);
         }
+        // New
+        for (File file : newImageFiles) {
+            addImageThumbnail(file.toURI().toString(), true);
+        }
+    }
+
+    private void addImageThumbnail(String source, boolean isNew) {
+        StackPane container = new StackPane();
+        container.getStyleClass().add("glass-pane");
+        container.setPadding(new javafx.geometry.Insets(5));
+
+        ImageView iv = new ImageView(new Image(source, 100, 100, true, true));
+        iv.setFitWidth(100);
+        iv.setFitHeight(100);
+        iv.setPreserveRatio(true);
+
+        Button removeBtn = new Button();
+        removeBtn.setGraphic(new de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView(
+                de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon.TRASH));
+        removeBtn.getStyleClass().add("button-secondary");
+        removeBtn.setStyle("-fx-background-color: rgba(245, 87, 108, 0.8); -fx-text-fill: white; -fx-padding: 2;");
+        StackPane.setAlignment(removeBtn, Pos.TOP_RIGHT);
+
+        removeBtn.setOnAction(e -> {
+            if (isNew) {
+                newImageFiles.removeIf(f -> f.toURI().toString().equals(source));
+            } else {
+                existingImageUrls.remove(source);
+            }
+            refreshImageUI();
+        });
+
+        container.getChildren().addAll(iv, removeBtn);
+        imageFlowPane.getChildren().add(container);
     }
 
     public boolean isSaved() {
@@ -142,21 +179,10 @@ public class ProductDialogController {
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Rasmlar", "*.png", "*.jpg", "*.jpeg", "*.webp"));
 
-        File file = fileChooser.showOpenDialog(nameField.getScene().getWindow());
-        if (file != null) {
-            selectedImageFile = file;
-            productImageView.setImage(new Image(file.toURI().toString()));
-            imagePlaceholderLabel.setVisible(false);
-        }
-    }
-
-    @FXML
-    private void handleRemoveImage() {
-        selectedImageFile = null;
-        productImageView.setImage(null);
-        imagePlaceholderLabel.setVisible(true);
-        if (product != null) {
-            product.setImageUrl(null);
+        List<File> files = fileChooser.showOpenMultipleDialog(nameField.getScene().getWindow());
+        if (files != null) {
+            newImageFiles.addAll(files);
+            refreshImageUI();
         }
     }
 
@@ -176,38 +202,44 @@ public class ProductDialogController {
 
         product.setName(nameField.getText().trim());
 
-        // Handle Barcode (Treat empty as null to avoid unique constraint issues)
+        // Handle Barcode
         String barcode = barcodeField.getText().trim();
         product.setBarcode(barcode.isEmpty() ? null : barcode);
 
         product.setCategory(categoryCombo.getValue());
-        product.setPrice(new BigDecimal(priceField.getText()));
-        product.setCostPrice(new BigDecimal(costPriceField.getText()));
-        product.setStockQuantity(new BigDecimal(stockField.getText()));
+        product.setPrice(parseBigDecimal(priceField.getText()));
+        product.setCostPrice(parseBigDecimal(costPriceField.getText()));
+        product.setStockQuantity(parseBigDecimal(stockField.getText()));
         product.setUnitType(unitCombo.getValue());
 
         String thresholdStr = thresholdField.getText().trim();
-        product.setLowStockThreshold(thresholdStr.isEmpty() ? BigDecimal.ZERO : new BigDecimal(thresholdStr));
+        product.setLowStockThreshold(thresholdStr.isEmpty() ? BigDecimal.ZERO : parseBigDecimal(thresholdStr));
 
-        // Handle Image Save
-        if (selectedImageFile != null) {
-            String savedPath = saveImage(selectedImageFile);
+        // Handle Images
+        java.util.List<String> finalUrls = new java.util.ArrayList<>(existingImageUrls);
+        for (File file : newImageFiles) {
+            String savedPath = saveImage(file);
             if (savedPath != null) {
-                product.setImageUrl(savedPath);
-            } else {
-                showAlert("Ogohlantirish", "Rasmni saqlab bo'lmadi, lekin mahsulot saqlanishi mumkin.");
+                finalUrls.add(savedPath);
             }
         }
+        product.setImageUrls(finalUrls);
 
         try {
             productService.save(product);
             saved = true;
             closeStage();
         } catch (Exception e) {
-            e.printStackTrace(); // Log stack trace
+            e.printStackTrace();
             showAlert("Xatolik", "Mahsulotni saqlashda xato yuz berdi: " +
                     (e.getCause() != null ? e.getCause().getMessage() : e.getMessage()));
         }
+    }
+
+    private BigDecimal parseBigDecimal(String str) {
+        if (str == null || str.isEmpty())
+            return BigDecimal.ZERO;
+        return new BigDecimal(str.replace(",", "."));
     }
 
     private String saveImage(File file) {
@@ -246,11 +278,11 @@ public class ProductDialogController {
             msg += "Zaxira miqdorini kiriting!\n";
 
         try {
-            new BigDecimal(priceField.getText());
-            new BigDecimal(costPriceField.getText());
-            new BigDecimal(stockField.getText());
+            parseBigDecimal(priceField.getText());
+            parseBigDecimal(costPriceField.getText());
+            parseBigDecimal(stockField.getText());
             if (!thresholdField.getText().trim().isEmpty()) {
-                new BigDecimal(thresholdField.getText().trim());
+                parseBigDecimal(thresholdField.getText().trim());
             }
         } catch (Exception e) {
             msg += "Narx va zaxira raqam bo'lishi shart!\n";

@@ -14,7 +14,6 @@ import org.springframework.context.ApplicationContext;
 import com.smartpos.util.AppSession;
 import javafx.scene.control.Button;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -38,6 +37,9 @@ public class MainController {
 
     @Autowired
     private com.smartpos.service.UserService userService;
+
+    @Autowired
+    private com.smartpos.util.NotificationUtil notificationUtil;
 
     @FXML
     private Circle statusCircle;
@@ -365,8 +367,11 @@ public class MainController {
             loader.setControllerFactory(context::getBean);
             Parent view = loader.load();
             contentArea.getChildren().setAll(view);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            if (notificationUtil != null) {
+                notificationUtil.showError("Xatolik", "Bo'limni yuklab bo'lmadi: " + fxmlPath + "\n" + e.getMessage());
+            }
         }
     }
 }

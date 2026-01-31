@@ -85,7 +85,7 @@ public class ExpenseViewController {
         expenseTable.setItems(FXCollections.observableArrayList(expenses));
 
         BigDecimal total = expenses.stream()
-                .map(Expense::getAmount)
+                .map(e -> e.getAmount() != null ? e.getAmount() : BigDecimal.ZERO)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         totalExpensesLabel.setText("$" + String.format("%.2f", total));
     }

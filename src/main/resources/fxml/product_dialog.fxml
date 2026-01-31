@@ -13,16 +13,18 @@
     
     <HBox spacing="30" alignment="TOP_CENTER">
         <!-- Image Section -->
-        <VBox spacing="15" alignment="TOP_CENTER" minWidth="150">
-            <StackPane styleClass="glass-pane" prefWidth="150" prefHeight="150" style="-fx-background-radius: 15;">
-                <ImageView fx:id="productImageView" fitWidth="140" fitHeight="140" preserveRatio="true"/>
-                <Label fx:id="imagePlaceholderLabel" text="Rasm yo'q" styleClass="label-sub-header" style="-fx-text-fill: #5a5a70;"/>
-            </StackPane>
-            <Button text="Rasm tanlash" onAction="#handleSelectImage" maxWidth="Infinity" styleClass="button-secondary">
-                <graphic><FontAwesomeIconView glyphName="IMAGE" size="14"/></graphic>
-            </Button>
-            <Button text="O'chirish" onAction="#handleRemoveImage" maxWidth="Infinity" styleClass="button-secondary" style="-fx-text-fill: #f5576c;">
-                <graphic><FontAwesomeIconView glyphName="TRASH" size="14" style="-fx-fill: #f5576c;"/></graphic>
+        <VBox spacing="15" alignment="TOP_CENTER" minWidth="180">
+            <Label text="MAHSULOT RASMLARI" style="-fx-text-fill: #00f2fe; -fx-font-size: 10px; -fx-font-weight: 900; -fx-letter-spacing: 2px;"/>
+            <ScrollPane fitToWidth="true" prefHeight="250" styleClass="glass-pane" style="-fx-background-color: transparent;">
+                <VBox fx:id="imageFlowPane" spacing="10" alignment="TOP_CENTER" style="-fx-padding: 10;">
+                    <!-- Thumbnails will be added here dynamically -->
+                    <StackPane fx:id="imagePlaceholder" style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 10;" prefHeight="100">
+                        <Label text="Rasmlar yo'q" style="-fx-text-fill: #5a5a70;"/>
+                    </StackPane>
+                </VBox>
+            </ScrollPane>
+            <Button text="Rasm qo'shish" onAction="#handleSelectImage" maxWidth="Infinity" styleClass="button-secondary">
+                <graphic><FontAwesomeIconView glyphName="PLUS_CIRCLE" size="14"/></graphic>
             </Button>
         </VBox>
 

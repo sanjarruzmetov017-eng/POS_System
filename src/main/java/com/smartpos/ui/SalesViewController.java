@@ -157,9 +157,10 @@ public class SalesViewController {
                     setGraphic(null);
                 } else {
                     Product p = getTableRow().getItem();
-                    if (p.getImageUrl() != null) {
+                    if (p.getImageUrls() != null && !p.getImageUrls().isEmpty()) {
                         try {
-                            File file = new File(p.getImageUrl());
+                            String firstUrl = p.getImageUrls().get(0);
+                            File file = new File(firstUrl);
                             if (file.exists()) {
                                 imageView.setImage(new Image(file.toURI().toString(), true));
                                 setGraphic(imageView);
@@ -273,7 +274,7 @@ public class SalesViewController {
 
     private void updateTotal() {
         BigDecimal subtotal = cartItems.stream()
-                .map(CartItem::getTotal)
+                .map(item -> item.getTotal() != null ? item.getTotal() : BigDecimal.ZERO)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal discount = discountService.calculateDiscount(subtotal, promoField.getText());
